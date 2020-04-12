@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="description" content="鮭男のホームページ">
+        <meta name="keywords" contents="鮭男のオフィシャルホームページ。作ったゲーム、プラモデルなどの日記を書きます。">
+        <title>Blog/鮭男のホームページ</title>
+        <link rel="stylesheet" href="../css/stylesheet.css">
+        <link rel="icon" href="../favicon.ico">
+    </head>
+    <body>
+        <!-- header -->
+        <header>
+            <img src="../img/logo.png" alt="ロゴ" width="128" height="128">
+            <div>
+            <h1>鮭男のホームページ</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Tips</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li class="selected"><a href="../blog.html">Blog</a></li>
+                    <li><a href="../games.html">Games</a></li>
+                </ul>
+            </nav>
+            </div>
+        </header>
+        <hr>
+
+        <!-- blog -->
+        <div class="blogbody">
+            <h1>C言語の出力文字に色を付ける</h1>
+            <small>2020/03/04</small>
+            <hr>
+            <div class="samuneil">
+                <img src="../img/c_color.png" alt="サムネイル">
+            </div>
+            <h2>いきさつ</h2>
+            <p>C言語でprintf()などの出力を使うとき、どうにかして文字に色を付けられないかと思った。</p>
+            <p>当時、私は自作のlsコマンドを作っており(Windows Powershellのlsエイリアスがあんまりにもあんまりだったので)、ディレクトリやシンボリックリンクには色を付けて出力したかった。
+                私の環境はWindows 10、コンパイラはMingw gccである。なるべく環境を汚したくなかったので、何かしらをダウンロードしたりせずに色付き文字を出力したかった。
+            </p>
+            <p>結論から言うと、方法はあった。</p>
+            <h2>SetConsoleTextAttribute()関数</h2>
+            <div class="codeblock">
+<pre><code>
+BOOL WINAPI SetConsoleTextAttribute(
+    _In_ HANDLE hConsoleOutput,
+    _In_ WORD   wAttributes
+);
+
+</code></pre></div>
+            <p>Windows上で色付きの出力を行うには、<code>SetConsoleTextAttribute()</code>という関数を用いればよいことがわかった。</p>
+            <p>この関数はwindows.hの中で宣言されており、windowsコンソールアプリの出力に色をつけるために使われる。</p>
+            <p>具体的には以下のように使われる。(以下の例では出力の背景が黄色になる)</p>
+            <div class="codeblock">
+<pre><code>
+HANDLE hc = GetStdHandle(STD_OUTPUT_HANDLE);
+SetConsoleTextAttribute(hc, BACKGROUND_GREEN | BACKGROUND_RED);
+
+</code></pre>
+            </div>
+            <p>第1引数は出力先のバッファを指すハンドルである。これは<code>GetStdHandle(STD_OUTPUT_HANDLE)</code>で取得できる。</p>
+            <p>第2引数は文字の色を指定するマクロを、論理和形式で複数入力する。</p>
+            <p>色を指定するマクロは、以下の通り。</p>
+            <div class="codeblock">
+<pre><code>
+FOREGROUND_BLUE 	    Text color contains blue.
+FOREGROUND_GREEN 	    Text color contains green.
+FOREGROUND_RED 	        Text color contains red.
+FOREGROUND_INTENSITY 	Text color is intensified.
+BACKGROUND_BLUE 	    Background color contains blue.
+BACKGROUND_GREEN 	    Background color contains green.
+BACKGROUND_RED 	        Background color contains red.
+BACKGROUND_INTENSITY 	Background color is intensified.
+COMMON_LVB_LEADING_BYTE 	Leading byte.
+COMMON_LVB_TRAILING_BYTE 	Trailing byte.
+COMMON_LVB_GRID_HORIZONTAL 	Top horizontal.
+COMMON_LVB_GRID_LVERTICAL 	Left vertical.
+COMMON_LVB_GRID_RVERTICAL 	Right vertical.
+COMMON_LVB_REVERSE_VIDEO 	Reverse foreground and background attributes.
+COMMON_LVB_UNDERSCORE 	Underscore.
+
+</code></pre>
+            </div>
+
+            <p>参考→<a href="https://docs.microsoft.com/en-us/windows/console/setconsoletextattribute">https://docs.microsoft.com/en-us/windows/console/setconsoletextattribute</a></p>
+            
+            <p></p>
+        </div>
+
+        <div class="share">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <!-- footer -->
+        <footer>
+            <hr>
+            last update :
+            <script type="text/javascript">
+                document.write(document.lastModified);
+            </script><br>
+            © 2020 Shakeo
+        </footer>
+    </body>
+</html>
