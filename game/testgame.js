@@ -6,6 +6,11 @@ var ctx;
 var SCREEN_WIDTH = 640;
 var SCREEN_HEIGHT = 480;
 
+var lastTimeStamp = null;
+
+var x, y;
+var mouse = {x: 0, y: 0};
+
 function init(){
     canvas = document.getElementById("maincanvas");
     ctx = canvas.getContext('2d');
@@ -14,11 +19,27 @@ function init(){
 
     Asset.loadAssets(function(){
         requestAnimationFrame(update);
-    })
+    });
+
+    canvas.addEventListener('mousemove', function(evt){
+        var canvasRect = canvas.getBoundingClientRect();
+        mouse = {
+            x: evt.clientX - canvasRect.left,
+            y: evt.clientY - canvasRect.top
+        } 
+    });
 };
 
-function update(){
+function update(timestamp){
+    var delta = 0;
+    if(lastTimeStamp != null){
+        delta = (timestamp - lastTimeStamp) / 1000;
+    }
+    lastTimeStamp = timestamp;
+    x = mouse.x;
+    y = mouse.y;
     draw();
+
     requestAnimationFrame(update);
 };
 
@@ -26,7 +47,7 @@ function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(Asset.images['back'], 0, 0);
-    ctx.drawImage(Asset.images['chara'], 0, 0);
+    ctx.drawImage(Asset.images['chara'], x, y);
 };
 
 var Asset = {};
@@ -66,3 +87,4 @@ Asset._loadImage = function(asset, onLoad){
     image.onload = onLoad;
     Asset.images[asset.name] = image;
 };
+
