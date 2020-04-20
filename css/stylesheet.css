@@ -208,3 +208,8 @@ pre {
 code {
     font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
+
+.gamebody hr{
+    border-top: 1px dashed #bbb;
+    border-bottom: 1px dashed #bbb;
+}
