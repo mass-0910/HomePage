@@ -154,8 +154,9 @@ Asset._loadImage = function(asset, onLoad){
 };
 
 function onClick(){
+    mouse.x = 
     mesbutton.forEach(function(elm){
-
+        
     });
 };
 
@@ -255,7 +256,6 @@ function loadMap(){
         }
     }
 }
-
 
 function readTextFile(file){
     var rawFile = new XMLHttpRequest();
