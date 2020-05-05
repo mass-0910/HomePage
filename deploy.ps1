@@ -3,7 +3,19 @@ $commit_message = "deploy at " + $now_time
 if ($args.Length -ne 0) {
     $commit_message += " '" + $args + "'"
 }
-echo $commit_message
-git add .
-git commit -m $commit_message
-git push origin master
+$notification_message = "commit message : [" + $commit_message + "]"
+Write $notification_message
+$input = Read-Host "Are you sure to start to deploy?(y/n)"
+switch($input){
+    "y" {
+        git add .
+        git commit -m $commit_message
+        git push origin master
+    }
+    "n" {
+        exit
+    }
+    default {
+        Write "you wrote other character without 'y' or 'n'."
+    }
+}
