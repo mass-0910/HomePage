@@ -68,6 +68,14 @@ function init(){
 
     //map load
     loadMap();
+    for(var i = 0; i < map.length; i++){
+        console.log(map[i].name);
+        for(var k = 0; k < 10; k++){
+            for(var j = 0; j < 10; j++){
+                console.log(map[i].elm[j][k]);
+            }
+        }
+    }
     console.log("init end");
 };
 
