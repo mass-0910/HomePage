@@ -114,6 +114,7 @@ function draw(){
         for(var i = 0; i < 3; i++){
             if(mouse.x >= mesbutton.x && mouse.x <= mesbutton.x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbutton.y && mouse.y <= mesbutton.y + 32){
                 ctx.fillStyle = 'rgba(100, 100, 100)';
+                console.log("in");
             }else{
                 ctx.fillStyle = 'rgba(255, 255, 255)';
             }
