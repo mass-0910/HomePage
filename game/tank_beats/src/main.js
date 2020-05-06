@@ -105,8 +105,6 @@ function draw(){
 
     ctx.drawImage(Asset.images['back'], 0, 0);
 
-    ctx.drawImage(Asset.images['cursor'], mouse.x - 16, mouse.y - 16);
-
     if(in_title){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
@@ -120,6 +118,9 @@ function draw(){
         ctx.fillText('ゲームオーバー', SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50);
         ctx.fillText('更新で再挑戦', SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 + 90);
     }
+
+    //draw mouse cursor
+    ctx.drawImage(Asset.images['cursor'], mouse.x - 16, mouse.y - 16);
 };
 
 var Asset = {};
