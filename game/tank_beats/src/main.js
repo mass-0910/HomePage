@@ -68,14 +68,12 @@ function init(){
 
     //map load
     loadMap();
-    for(var i = 0; i < map.length; i++){
-        console.log("name : " + map[i].name);
-        for(var k = 0; k < 10; k++){
-            for(var j = 0; j < 10; j++){
-                console.log(map[i].elm[j][k]);
-            }
-        }
-    }
+
+    //mesbutton init
+    mesbutton[0] = { text: 'START',       x: 200, y: 300 };
+    mesbutton[1] = { text: 'HOW TO PLAY', x: 200, y: 350 };
+    mesbutton[2] = { text: 'CREDIT',      x: 200, y: 400 };
+
     console.log("init end");
 };
 
@@ -110,6 +108,9 @@ function draw(){
     if(in_title){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
+        for(var i = 0; i < 3; i++){
+            ctx.fillText(mesbutton.text, mesbutton.x, mesbutton.y);
+        }
         //ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
     }
 
