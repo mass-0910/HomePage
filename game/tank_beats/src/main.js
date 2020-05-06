@@ -112,7 +112,7 @@ function draw(){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
         for(var i = 0; i < 3; i++){
-            if(mouse.x >= mesbutton.x && mouse.x <= mesbutton.x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbutton.y && mouse.y <= mesbutton.y + 32){
+            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbutton[i].y && mouse.y <= mesbutton[i].y + 32){
                 ctx.fillStyle = 'rgba(100, 100, 100)';
                 console.log("in");
             }else{
@@ -173,7 +173,7 @@ Asset._loadImage = function(asset, onLoad){
 function onClick(){
     if(in_title){
         for(var i = 0; i < 3; i++){
-            if(mouse.x >= mesbutton.x && mouse.x <= mesbutton.x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbuttin.y && mouse.y <= mesbuttin.y + 32){
+            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbutton[i].y && mouse.y <= mesbutton[i].y + 32){
                 switch(i){
                     case 0:
                         in_title = false;
