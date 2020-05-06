@@ -35,9 +35,6 @@ var gameover = false;
 
 var in_title = true;
 
-var fs = WScript.CreateObject("Scripting.FileSystemObject");
-var mapnamefile = fs.OpenTextFile("tank_beats/data/mapfile/mapdata.txt", 1);
-
 map = [];
 
 mesbutton = [];
@@ -52,7 +49,7 @@ function init(){
     canvas.height = SCREEN_HEIGHT;
     ctx.font = '32px sans-serif';
 
-    readTextFile("tank_beats/data/mapfile/mapdata.txt");
+    readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapdata.txt");
 
     // loading assets
     Asset.loadAssets(function(){
@@ -259,14 +256,16 @@ function loadMap(){
 
 function readTextFile(file){
     var rawFile = new XMLHttpRequest();
+    var allText;
     rawFile.open("GET", file, false);
     rawFile.onreadystatechange = function(){
         if(rawFile.readyState == 4){
             if(rawFile.status == 200 || rawFile.status == 0){
-                var allText = rawFile.responseText;
+                allText = rawFile.responseText;
                 alert(allText);
             }
         }
     }
+    console.log("text : " + allText);
     rawFile.send(null);
 } 
