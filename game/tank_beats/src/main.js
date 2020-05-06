@@ -105,13 +105,15 @@ function draw(){
 
     ctx.drawImage(Asset.images['back'], 0, 0);
 
+    ctx.drawImage(Asset.images['cursor'], mouse.x - 16, mouse.y - 16);
+
     if(in_title){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
         for(var i = 0; i < 3; i++){
             ctx.fillText(mesbutton[i].text, mesbutton[i].x, mesbutton[i].y);
         }
-        ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
+        //ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
     }
 
     if(gameover){
@@ -124,7 +126,8 @@ var Asset = {};
 
 Asset.assets = [
     { type: 'image', name: 'back', src: 'tank_beats/data/black.png' },
-    { type: 'image', name: 'title', src: 'tank_beats/data/title.png'}
+    { type: 'image', name: 'title', src: 'tank_beats/data/title.png'},
+    { type: 'image', name: 'cursor', src: 'tank_beats/data/title.png' }
 ];
 
 Asset.images = [];
