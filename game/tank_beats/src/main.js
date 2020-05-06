@@ -49,9 +49,6 @@ function init(){
     canvas.height = SCREEN_HEIGHT;
     ctx.font = '32px sans-serif';
 
-    var mapdataText = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapdata.txt");
-    console.log(mapdataText);
-
     // loading assets
     Asset.loadAssets(function(){
         requestAnimationFrame(update);
@@ -235,16 +232,17 @@ function isInTheBlock(block, ball){
 function loadMap(){
     var mapname;
     var mapfile;
+    var mapnamefile = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapdata.txt");
     for(var i = 0;; i++){
-        mapname = mapnamefile.ReadLine();
+        mapname = mapnamefile.split('\n')[i];
         if(mapname != 'TEXTend'){
             map[i] = {};
             map[i].name = mapname;
             map[i].elm = [][10];
-            mapfile = fs.OpenTextFile("tank_beats/data/mapfile/" + map[i].name + ".txt", 1);
+            mapfile = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/" + map[i].name + ".txt");
             for(var k = 0; k < 10; k++){
                 var split_elm;
-                split_elm = mapfile.ReadLine().split('');
+                split_elm = mapfile.split('\n')[k].split('');
                 for(var j = 0; j < 10; j++){
                     map[i].elm[j][k] = split_elm[j];
                 }
