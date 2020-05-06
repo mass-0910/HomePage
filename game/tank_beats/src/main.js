@@ -111,7 +111,7 @@ function draw(){
         for(var i = 0; i < 3; i++){
             ctx.fillText(mesbutton.text, mesbutton.x, mesbutton.y);
         }
-        //ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
+        ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
     }
 
     if(gameover){
