@@ -49,7 +49,8 @@ function init(){
     canvas.height = SCREEN_HEIGHT;
     ctx.font = '32px sans-serif';
 
-    readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapdata.txt");
+    var mapdataText = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapdata.txt");
+    console.log(mapdataText);
 
     // loading assets
     Asset.loadAssets(function(){
@@ -257,15 +258,17 @@ function loadMap(){
 function readTextFile(file){
     var rawFile = new XMLHttpRequest();
     var allText;
+    var exitFlag = false;
     rawFile.open("GET", file, false);
     rawFile.onreadystatechange = function(){
         if(rawFile.readyState == 4){
             if(rawFile.status == 200 || rawFile.status == 0){
                 allText = rawFile.responseText;
-                alert(allText);
+                exitFlag = true;
             }
         }
     }
-    console.log("text : " + allText);
     rawFile.send(null);
+    while(exitFlag == false);
+    return allText;
 } 
