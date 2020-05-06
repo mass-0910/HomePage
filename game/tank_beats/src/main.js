@@ -112,7 +112,7 @@ function draw(){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
         for(var i = 0; i < 3; i++){
-            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbuttin[i].text) && mouse.y >= mesbutton[i].y && mouse.y <= mesbutton[i].y + 32){
+            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbutton[i].text) && mouse.y >= mesbutton[i].y && mouse.y <= mesbutton[i].y + 32){
                 ctx.fillStyle = 'rgba(100, 100, 100)';
                 console.log("in");
             }else{
