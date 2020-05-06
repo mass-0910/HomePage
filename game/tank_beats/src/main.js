@@ -127,7 +127,7 @@ var Asset = {};
 Asset.assets = [
     { type: 'image', name: 'back', src: 'tank_beats/data/black.png' },
     { type: 'image', name: 'title', src: 'tank_beats/data/title.png'},
-    { type: 'image', name: 'cursor', src: 'tank_beats/data/title.png' }
+    { type: 'image', name: 'cursor', src: 'tank_beats/data/target.png' }
 ];
 
 Asset.images = [];
