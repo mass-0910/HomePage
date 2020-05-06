@@ -34,6 +34,9 @@ var player = { x: SCREEN_WIDTH / 2, y: 400, v: 0.0, lastx: SCREEN_WIDTH / 2};
 var gameover = false;
 
 var in_title = true;
+var in_game = false;
+var in_credit = false;
+var in_howtoplay = false;
 
 map = [];
 
@@ -109,6 +112,11 @@ function draw(){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
         for(var i = 0; i < 3; i++){
+            if(mouse.x >= mesbutton.x && mouse.x <= mesbutton.x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbuttin.y && mouse.y <= mesbuttin.y + 32){
+                ctx.fillStyle = 'rgba(100, 100, 100)';
+            }else{
+                ctx.fillStyle = 'rgba(255, 255, 255)';
+            }
             ctx.fillText(mesbutton[i].text, mesbutton[i].x, mesbutton[i].y);
         }
         //ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
@@ -162,10 +170,25 @@ Asset._loadImage = function(asset, onLoad){
 };
 
 function onClick(){
-    mouse.x = 
-    mesbutton.forEach(function(elm){
-        
-    });
+    if(in_title){
+        for(var i = 0; i < 3; i++){
+            if(mouse.x >= mesbutton.x && mouse.x <= mesbutton.x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbuttin.y && mouse.y <= mesbuttin.y + 32){
+                switch(i){
+                    case 0:
+                        in_title = false;
+                        in_game = true;
+                        break;
+                    case 1:
+                        in_title = false;
+                        in_howtoplay = true;
+                        break;
+                    case 2:
+                        in_title = false;
+                        in_credit = true;
+                }
+            }
+        }
+    }
 };
 
 function collision(){
