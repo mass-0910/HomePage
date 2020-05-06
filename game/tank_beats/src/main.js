@@ -109,7 +109,7 @@ function draw(){
         console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
         for(var i = 0; i < 3; i++){
-            ctx.fillText(mesbutton.text, mesbutton.x, mesbutton.y);
+            ctx.fillText(mesbutton[i].text, mesbutton[i].x, mesbutton[i].y);
         }
         ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
     }
