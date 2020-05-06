@@ -238,7 +238,10 @@ function loadMap(){
         if(mapname != 'TEXTend'){
             map[i] = {};
             map[i].name = mapname;
-            map[i].elm = [][10];
+            map[i].elm = [];
+            for(var elm_i = 0; i < 10; i++){
+                map[i].elm[elm_i] = new Array(10);
+            }
             mapfile = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/" + map[i].name + ".txt");
             for(var k = 0; k < 10; k++){
                 var split_elm;
