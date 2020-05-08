@@ -29,7 +29,11 @@ var lastTimeStamp = null;
 
 var mouse = { x: 0, y: 0 };
 
-var player = { x: SCREEN_WIDTH / 2, y: 400, v: 0.0, lastx: SCREEN_WIDTH / 2};
+var player;
+var pbullet = [];
+
+var enemy = [];
+var enemynum = 0;
 
 var gameover = false;
 
@@ -39,9 +43,9 @@ var in_credit = false;
 var in_howtoplay = false;
 
 map = [];
+var now_mapnumber;
 
 mesbutton = [];
-
 
 function init(){
 
@@ -57,8 +61,6 @@ function init(){
         requestAnimationFrame(update);
     });
 
-    console.log("asset loaded");
-
     // set mouse listener
     canvas.addEventListener('mousemove', function(evt){
         var canvasRect = canvas.getBoundingClientRect();
@@ -70,12 +72,31 @@ function init(){
     canvas.addEventListener('click', onClick, false);
 
     //map load
-    loadMap();
+    //loadMap();
+    now_mapnumber = 0;
 
     //mesbutton init
     mesbutton[0] = { text: 'START',       x: 200, y: 300 };
     mesbutton[1] = { text: 'HOW TO PLAY', x: 200, y: 350 };
     mesbutton[2] = { text: 'CREDIT',      x: 200, y: 400 };
+
+    //player init
+    player = { x: 32.0, y: 32.0, xv: 0.0, yv: 0.0, r: 0.0, tr: 0.0, HP: 3, damage_timer: ANIMEFRAME * 4, bulnum: 0};
+    for(var i = 0; i < PBULMAX; i++){
+        pbullet[i] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0 };
+    }
+
+    //enemy init
+    for(var i = 0; i < EMAX; i++){
+        enemy[i] = {};
+        enemy[i].HP = ENEMYHPMAX;
+        enemy[i].damage_timer = ANIMEFRAME * 4;
+        enemy[i].smoke_timer = 0;
+        enemy[i].bullet = [];
+        for(var j = 0; j < EBULMAX; j++){
+            enemy[i].bullet[j] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0 };
+        }
+    }
 
     console.log("init end");
 };
@@ -109,18 +130,25 @@ function draw(){
     ctx.drawImage(Asset.images['back'], 0, 0);
 
     if(in_title){
-        console.log("title");
         ctx.drawImage(Asset.images['title'], 0, 0);
         for(var i = 0; i < 3; i++){
-            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbutton[i].text) && mouse.y >= mesbutton[i].y && mouse.y <= mesbutton[i].y + 32){
-                ctx.fillStyle = 'rgba(100, 100, 100)';
-                console.log("in");
+            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbutton[i].text).width && mouse.y >= mesbutton[i].y - 32 && mouse.y <= mesbutton[i].y){
+                ctx.fillStyle = 'rgba(150, 150, 150)';
             }else{
                 ctx.fillStyle = 'rgba(255, 255, 255)';
             }
             ctx.fillText(mesbutton[i].text, mesbutton[i].x, mesbutton[i].y);
         }
         //ctx.fillText('クリックで始める', SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 50);
+    }
+
+    if(in_game){
+        ctx.drawImage(Asset.images['back'], 0, 0);
+
+        drawMap();
+        
+        //
+        for()
     }
 
     if(gameover){
@@ -132,12 +160,58 @@ function draw(){
     ctx.drawImage(Asset.images['cursor'], mouse.x - 16, mouse.y - 16);
 };
 
+function drawMap(){
+    for(var j = 0; j < 10; j++){
+        for(var i = 0; i < 10; i++){
+            var posX, posY;
+            posX = i * 64;
+            posY = j * 64;
+            if(map[now_mapnumber].elm[i][j] == 3){
+                player.x = i * 64 + 32;
+                player.y = j * 64 + 32;
+                map[now_mapnumber].elm[i][j] = 0;
+            }
+            if(map[now_mapnumber].elm[i][j] == 4){
+                enemy[enemynum].x = i * 64 + 32;
+                enemy[enemynum].y = j * 64 + 32;
+                enemy[enemynum].type = 0;
+                map[now_mapnumber].elm[i][j] = 0;
+            }
+            if(map[now_mapnumber].elm[i][j] == 5){
+                enemy[enemynum].x = i * 64 + 32;
+                enemy[enemynum].y = j * 64 + 32;
+                enemy[enemynum].type = 1;
+                map[now_mapnumber].elm[i][j] = 0;
+            }
+            if(map[now_mapnumber].elm[i][j] == 6){
+                enemy[enemynum].x = i * 64 + 32;
+                enemy[enemynum].y = j * 64 + 32;
+                enemy[enemynum].type = 2;
+                map[now_mapnumber].elm[i][j] = 0;
+            }
+            ctx.drawImage(Asset.images['map'], map[now_mapnumber].elm[i][j] * 64, 0, 64, 64, posX, poxY, 64, 64);
+        }
+    }
+}
+
 var Asset = {};
 
 Asset.assets = [
     { type: 'image', name: 'back', src: 'tank_beats/data/black.png' },
-    { type: 'image', name: 'title', src: 'tank_beats/data/title.png'},
-    { type: 'image', name: 'cursor', src: 'tank_beats/data/target.png' }
+    { type: 'image', name: 'title', src: 'tank_beats/data/title.png' },
+    { type: 'image', name: 'cursor', src: 'tank_beats/data/target.png' },
+    { type: 'image', name: 'map', src: 'tank_beats/data/map.png' },
+    { type: 'image', name: 'tankbody', src: 'tank_beats/data/tankbody.png' },
+    { type: 'image', name: 'tankhead', src: 'tank_beats/data/tankhead.png' },
+    { type: 'image', name: 'enemybody', src: 'tank_beats/data/enemybody.png' },
+    { type: 'image', name: 'enemyhead', src: 'tank_beats/data/enemyhead.png'},
+    { type: 'image', name: 'bullet', src: 'tank_beats/data/bullet.png' },
+    { type: 'image', name: 'hitimg', src: 'tank_beats/data/hitimg.png' },
+    { type: 'image', name: 'smoke', src: 'tank_beats/data/smoke.png' },
+    { type: 'image', name: 'fire', src: 'tank_beats/data/fire.png' },
+    { type: 'image', name: 'damage', src: 'tank_beats/data/damage.png'},
+    { type: 'image', name: 'gameover', src: 'tank_beats/data/gameover.png' },
+    { type: 'image', name: 'clear', src: 'tank_beats/data/clear.png'}
 ];
 
 Asset.images = [];
@@ -173,7 +247,7 @@ Asset._loadImage = function(asset, onLoad){
 function onClick(){
     if(in_title){
         for(var i = 0; i < 3; i++){
-            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbuttin.text) && mouse.y >= mesbutton[i].y && mouse.y <= mesbutton[i].y + 32){
+            if(mouse.x >= mesbutton[i].x && mouse.x <= mesbutton[i].x + ctx.measureText(mesbutton.text).width && mouse.y >= mesbutton[i].y - 32 && mouse.y <= mesbutton[i].y){
                 switch(i){
                     case 0:
                         in_title = false;
@@ -309,4 +383,4 @@ function readTextFile(file){
     rawFile.send(null);
     while(exitFlag == false);
     return allText;
-} 
+}
