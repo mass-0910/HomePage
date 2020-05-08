@@ -197,7 +197,7 @@ function drawPlayer(){
 
     //draw tankhead
     ctx.rotate(player.tr - player.r);
-    ctx.drawImage(player.bodyimage, player.x - 32, player.y - 32);
+    ctx.drawImage(player.bodyimage, player.bodyimage.width - 32, player.bodyimage.height - 32);
 
     ctx.restore();
 }
@@ -208,10 +208,10 @@ function drawEnemies(){
         //draw enemy body
         ctx.translate(enemy[i].x, enemy[i].y);
         ctx.rotate(enemy[i].r);
-        ctx.drawImage(Asset.images['enemybody'], enemy[i].x - 32, enemy[i].y - 32);
+        ctx.drawImage(Asset.images['enemybody'], Asset.images['enemybody'].width - 32, Asset.images['enemybody'].height - 32);
         //draw enemy head
         ctx.rotate(enemy[i].tr - enemy[i].r - Math.PI / 2);
-        ctx.drawImage(Asset.images['enemyhead'], enemy[i].x - 32, enemy[i].y - 32);
+        ctx.drawImage(Asset.images['enemyhead'], Asset.images['enemyhead'].width - 32, Asset.images['enemyhead'].width - 32);
         ctx.restore();
     }
 }
