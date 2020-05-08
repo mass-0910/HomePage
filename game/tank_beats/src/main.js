@@ -85,13 +85,12 @@ function init(){
     for(var i = 0; i < PBULMAX; i++){
         pbullet[i] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0 };
     }
+    player.bodyimage = Asset.images['tankbody'];
+    player.towerimage = Asset.images['tankhead'];
 
     //enemy init
     for(var i = 0; i < EMAX; i++){
-        enemy[i] = {};
-        enemy[i].HP = ENEMYHPMAX;
-        enemy[i].damage_timer = ANIMEFRAME * 4;
-        enemy[i].smoke_timer = 0;
+        enemy[i] = { HP: ENEMYHPMAX, damage_timer: ANIMEFRAME * 4, smoke_timer: 0, r: 0, tr: 0};
         enemy[i].bullet = [];
         for(var j = 0; j < EBULMAX; j++){
             enemy[i].bullet[j] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0 };
@@ -144,8 +143,8 @@ function draw(){
 
     if(in_game){
         ctx.drawImage(Asset.images['back'], 0, 0);
-
         drawMap();
+        drawPlayer();
     }
 
     if(gameover){
@@ -172,22 +171,54 @@ function drawMap(){
                 enemy[enemynum].x = i * 64 + 32;
                 enemy[enemynum].y = j * 64 + 32;
                 enemy[enemynum].type = 0;
+                enemynum++;
                 map[now_mapnumber].elm[i][j] = 0;
             }
             if(map[now_mapnumber].elm[i][j] == 5){
                 enemy[enemynum].x = i * 64 + 32;
                 enemy[enemynum].y = j * 64 + 32;
                 enemy[enemynum].type = 1;
+                enemynum++;
                 map[now_mapnumber].elm[i][j] = 0;
             }
             if(map[now_mapnumber].elm[i][j] == 6){
                 enemy[enemynum].x = i * 64 + 32;
                 enemy[enemynum].y = j * 64 + 32;
                 enemy[enemynum].type = 2;
+                enemynum++;
                 map[now_mapnumber].elm[i][j] = 0;
             }
             ctx.drawImage(Asset.images['map'], map[now_mapnumber].elm[i][j] * 64, 0, 64, 64, posX, posY, 64, 64);
         }
+    }
+}
+
+function drawPlayer(){
+
+    //draw tankbody
+    ctx.save();
+    ctx.translate(player.x, player.y);
+    ctx.rotate(player.r);
+    ctx.drawImage(player.bodyimage, player.x - 32, player.y - 32);
+
+    //draw tankhead
+    ctx.rotate(player.tr - player.r);
+    ctx.drawImage(player.bodyimage, player.x - 32, player.y - 32);
+
+    ctx.restore();
+}
+
+function drawEnemies(){
+    for(var i = 0; i < enemynum; i++){
+        ctx.save();
+        //draw enemy body
+        ctx.translate(enemy[i].x, enemy[i].y);
+        ctx.rotate(enemy[i].r);
+        ctx.drawImage(Asset.images['enemybody'], enemy[i].x - 32, enemy[i].y - 32);
+        //draw enemy head
+        ctx.rotate(enemy[i].tr - enemy[i].r - Math.PI / 2);
+        ctx.drawImage(Asset.images['enemyhead'], enemy[i].x - 32, enemy[i].y - 32);
+        ctx.restore();
     }
 }
 
