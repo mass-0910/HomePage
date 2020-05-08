@@ -146,9 +146,6 @@ function draw(){
         ctx.drawImage(Asset.images['back'], 0, 0);
 
         drawMap();
-        
-        //
-        for()
     }
 
     if(gameover){
