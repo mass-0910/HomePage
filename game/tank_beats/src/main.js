@@ -370,10 +370,11 @@ function drawSmoke(){
 function drawParameter(){
     ctx.fillText('HP', 670, 20);
     if(loading != LOADINGTIME){
-        ctx.fillText('Loading', 650, 140);
+        ctx.fillText('Loading', 650, 140 + 32);
     }
-    ctx.fillRect(670, 200, (loading / LOADINGTIME) * 100.0, 10);
-    ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250)
+    ctx.fillRect(670, 200, (loading / LOADINGTIME) * 100.0, 10 + 32);
+    ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250 + 32)
+    loading++;
 }
 
 var Asset = {};
