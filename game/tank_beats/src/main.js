@@ -72,7 +72,7 @@ function init(){
     canvas.addEventListener('click', onClick, false);
 
     //map load
-    //loadMap();
+    loadMap();
     now_mapnumber = 0;
 
     //mesbutton init
