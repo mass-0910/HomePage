@@ -193,11 +193,11 @@ function drawPlayer(){
     ctx.save();
     ctx.translate(player.x, player.y);
     ctx.rotate(player.r);
-    ctx.drawImage(player.bodyimage, player.x - 32, player.y - 32);
+    ctx.drawImage(player.bodyimage, player.bodyimage.width - 32, player.bodyimage.width - 32);
 
     //draw tankhead
     ctx.rotate(player.tr - player.r);
-    ctx.drawImage(player.bodyimage, player.bodyimage.width - 32, player.bodyimage.height - 32);
+    ctx.drawImage(player.towerimage, player.towerimage.width - 32, player.towerimage.height - 32);
 
     ctx.restore();
 }
