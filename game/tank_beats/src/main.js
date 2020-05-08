@@ -139,6 +139,7 @@ function draw(){
         ctx.drawImage(Asset.images['back'], 0, 0);
         drawMap();
         drawPlayer();
+        drawEnemies();
     }
 
     if(gameover){
@@ -193,11 +194,11 @@ function drawPlayer(){
     ctx.save();
     ctx.translate(player.x, player.y);
     ctx.rotate(player.r);
-    ctx.drawImage(player.bodyimage, player.bodyimage.width - 32, player.bodyimage.width - 32);
+    ctx.drawImage(player.bodyimage, -(player.bodyimage.width / 2), -(player.bodyimage.width / 2));
 
     //draw tankhead
     ctx.rotate(player.tr - player.r);
-    ctx.drawImage(player.towerimage, player.towerimage.width - 32, player.towerimage.height - 32);
+    ctx.drawImage(player.towerimage, -(player.towerimage.width / 2), -(player.towerimage.height / 2));
 
     ctx.restore();
     
@@ -210,10 +211,10 @@ function drawEnemies(){
         //draw enemy body
         ctx.translate(enemy[i].x, enemy[i].y);
         ctx.rotate(enemy[i].r);
-        ctx.drawImage(Asset.images['enemybody'], Asset.images['enemybody'].width - 32, Asset.images['enemybody'].height - 32);
+        ctx.drawImage(Asset.images['enemybody'], -(Asset.images['enemybody'].width / 2), -(Asset.images['enemybody'].height / 2));
         //draw enemy head
         ctx.rotate(enemy[i].tr - enemy[i].r - Math.PI / 2);
-        ctx.drawImage(Asset.images['enemyhead'], Asset.images['enemyhead'].width - 32, Asset.images['enemyhead'].width - 32);
+        ctx.drawImage(Asset.images['enemyhead'], -(Asset.images['enemyhead'].width / 2), -(Asset.images['enemyhead'].height / 2));
         ctx.restore();
     }
 }
