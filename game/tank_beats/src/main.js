@@ -31,16 +31,17 @@ var mouse = { x: 0, y: 0 };
 
 var player;
 var pbullet = [];
+var loading = 0;
 
 var enemy = [];
 var enemynum = 0;
 
 var gameover = false;
 
-var in_title = true;
-var in_game = false;
-var in_credit = false;
-var in_howtoplay = false;
+var in_title;
+var in_game;
+var in_credit;
+var in_howtoplay;
 
 map = [];
 var now_mapnumber;
@@ -81,21 +82,35 @@ function init(){
     mesbutton[2] = { text: 'CREDIT',      x: 200, y: 400 };
 
     //player init
-    player = { x: 32.0, y: 32.0, xv: 0.0, yv: 0.0, r: 0.0, tr: 0.0, HP: 3, damage_timer: ANIMEFRAME * 4, bulnum: 0};
+    player = { x: 32.0, y: 32.0, xv: 0.0, yv: 0.0, r: 0.0, tr: 0.0, HP: 3, damage_timer: ANIMEFRAME * 4, smoke_timer: 0, firepage: 0, bulnum: 0};
     for(var i = 0; i < PBULMAX; i++){
-        pbullet[i] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0 };
+        pbullet[i] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0, r: 0.0 };
+    }
+    player.smoke = [];
+    for(var i = 0; i < SMOKENUMMAX; i++){
+        player.smoke[i] = {x: 0, y: 0, xv: 0, yv: 0};
     }
     player.bodyimage = Asset.images['tankbody'];
     player.towerimage = Asset.images['tankhead'];
 
     //enemy init
+    enemynum = 0;
     for(var i = 0; i < EMAX; i++){
-        enemy[i] = { HP: ENEMYHPMAX, damage_timer: ANIMEFRAME * 4, smoke_timer: 0, r: 0, tr: 0};
+        enemy[i] = { HP: ENEMYHPMAX, damage_timer: ANIMEFRAME * 4, smoke_timer: 0, firepage: 0, r: 0, tr: 0};
         enemy[i].bullet = [];
         for(var j = 0; j < EBULMAX; j++){
-            enemy[i].bullet[j] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0 };
+            enemy[i].bullet[j] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0, r: 0.0 };
+        }
+        enemy[i].smoke = [];
+        for(var j = 0; j < SMOKENUMMAX; j++){
+            enemy[i].smoke[j] = {x: 0, y: 0, xv: 0, yv: 0};
         }
     }
+
+    in_title = true;
+    in_game = false;
+    in_credit = false;
+    in_howtoplay = false;
 
     console.log("init end");
 };
@@ -140,6 +155,11 @@ function draw(){
         drawMap();
         drawPlayer();
         drawEnemies();
+        drawBullet();
+        drawExplosion();
+        drawFire();
+        drawSmoke();
+        drawParameter();
     }
 
     if(gameover){
@@ -217,6 +237,143 @@ function drawEnemies(){
         ctx.drawImage(Asset.images['enemyhead'], -(Asset.images['enemyhead'].width / 2), -(Asset.images['enemyhead'].height / 2));
         ctx.restore();
     }
+}
+
+function drawBullet(){
+
+    //draw player's bullet
+    for(var i = 0; i < PBULMAX; i++){
+        if(pbullet[i] != -1.0){
+            ctx.save();
+            ctx.translate(pbullet[i].x, pbullet[i].y);
+            ctx.rotate(pbullet[i].r);
+            ctx.drawImage(Asset.images['bullet'], -(Asset.images['bullet'].width / 2), -(Asset.images['bullet'].height / 2));
+            ctx.restore();
+        }
+    }
+
+    //draw enemy's bullet
+    for(var j = 0; j < enemynum; j++){
+        for(var i = 0; i < EBULMAX; i++){
+            if(enemy[j].bullet[i].x != -1.0){
+                ctx.save();
+                ctx.translate(enemy[j].bullet[i].x, enemy[j].bullet[i].y);
+                ctx.rotate(enemy[j].bullet[i].r);
+                ctx.drawImage(Asset.images['bullet'], -(Asset.images['bullet'].width / 2), -(Asset.images['bullet'].height / 2));
+                ctx.restore();
+            }
+        }
+    }
+}
+
+function drawExplosion(){
+
+    //draw player's explosion
+    if(player.damage_timer != ANIMEFRAME * 4){
+        var page = Math.floor(player.damage_timer / ANIMEFRAME);
+        ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, player.x - Asset.images['hitimg'].width / 2, player.y - Asset.images['hitimg'].height / 2);
+        player.damage_timer++;
+    }
+
+    //draw enemy's explosion
+    for(var j = 0; j < enemynum; j++){
+        if(enemy[i].damage_timer != ANIMEFRAME * 4){
+            var page = Math.floor(enemy[i].damage_timer / ANIMEFRAME);
+            ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, enemy[i].x - Asset.images['hitimg'].width / 2, enemy[i].y - Asset.images['hitimg'].height / 2);
+            enemy[i].damage_timer++;
+        }
+    }
+}
+
+function drawFire(){
+
+    //draw player fire
+    if(player.HP == 0){
+        if(player.smoke_timer % ANIMEFRAME == 0){
+            if(player.firepage == 0){
+                player.firepage = 1;
+            }else{
+                player.firepage = 0;
+            }
+        }
+        ctx.drawImage(Asset.images['fire'], player.firepage * 32, 0, 32, 32, player.x - (Asset.images['fire'].width / 4), player.y - (Asset.images['fire'].height / 2), 32, 32);
+    }
+
+    //draw enemy fire
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].HP == 0){
+            if(enemy[i].smoke_timer % ANIMEFRAME == 0){
+                if(enemy[i].firepage == 0){
+                    enemy[i].firepage = 1;
+                }else{
+                    enemy[i].firepage = 0;
+                }
+            }
+            ctx.drawImage(Asset.images['fire'], enemy[i].firepage * 32, 0, 32, 32, enemy[i].x - (Asset.images['fire'].width / 4), enemy[i].y - (Asset.images['fire'].height / 2), 32, 32);
+        }
+    }
+}
+
+function drawSmoke(){
+
+    //draw player smoke
+    if(player.HP <= 1){
+        for(var i = 0; i < SMOKENUMMAX; i++){
+            if(player.smoke_timer == 0){
+                player.smoke[i].x = player.x;
+                player.smoke[i].y = player.y;
+                player.smoke[i].xv = 0.0;
+                player.smoke[i].yv = 0.0;
+            }
+            if(player.smoke_timer % 3 == i){
+                player.smoke[i].xv = Math.cos(-Math.PI / 2,0 + Math.random() - 0.5);
+                player.smoke[i].yv = Math.sin(-Math.PI / 2,0 + Math.random() - 0.5);
+            }
+            player.smoke[i].x += player.smoke[i].xv;
+            player.smoke[i].y += player.smoke[i].yv;
+            if(Math.sqrt(Math.pow(player.smoke[i].x - player.x, 2) + Math.pow(player.smoke[i].y - player.y, 2)) >= SMOKENUMMAX * 3){
+                player.smoke[i].x = player.x;
+                player.smoke[i].y = player.y;
+            }
+            ctx.drawImage(Asset.images['smoke'], player.smoke[i].x - 8, player.smoke[i].y - 8);
+        }
+        player.smoke_timer++;
+    }
+
+    //draw enemy smoke
+    for(var j = 0; j < EMAX; j++){
+        if(enemy[j].HP <= 1){
+            for(var i = 0; i < SMOKENUMMAX; i++){
+                if(enemy[j].smoke_timer == 0){
+                    enemy[j].smoke[i].x = enemy[j].x;
+                    enemy[j].smoke[i].y = enemy[j].y;
+                    enemy[j].smoke[i].xv = 0.0;
+                    enemy[j].smoke[i].yv = 0.0;
+                }
+                if(enemy[j].smoke_timer % 3 == i){
+                    enemy[j].smoke[i].xv = Math.cos(-Math.PI / 2,0 + Math.random() - 0.5);
+                    enemy[j].smoke[i].yv = Math.sin(-Math.PI / 2,0 + Math.random() - 0.5);
+                }
+                enemy[j].smoke[i].x += enemy[j].smoke[i].xv;
+                enemy[j].smoke[i].y += enemy[j].smoke[i].yv;
+                if(Math.sqrt(Math.pow(enemy[j].smoke[i].x - enemy[j].x, 2) + Math.pow(enemy[j].smoke[i].y - enemy[j].y, 2)) >= SMOKENUMMAX * 3){
+                    enemy[j].smoke[i].x = enemy[j].x;
+                    enemy[j].smoke[i].y = enemy[j].y;
+                }
+                ctx.drawImage(Asset.images['smoke'], enemy[j].smoke[i].x - 8, enemy[j].smoke[i].y - 8);
+            }
+            enemy[j].smoke_timer++;
+        }
+    }
+}
+
+function drawParameter(){
+    ctx.fillText('HP', 670, 20);
+    if(loading != LOADINGTIME){
+        fillText('Loading', 650, 140);
+    }
+    ctx.fillRect(670, 200, (loading / LOADINGTIME) * 100.0, 10);
+    ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250)
 }
 
 var Asset = {};
