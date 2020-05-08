@@ -109,12 +109,6 @@ function update(timestamp){
     }
     lastTimeStamp = timestamp;
     
-
-    // update player
-    player.x = mouse.x;
-    player.v = player.x - player.lastx;
-    player.lastx = player.x;
-
     //collision();
 
     draw();
