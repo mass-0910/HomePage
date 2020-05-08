@@ -276,7 +276,7 @@ function drawExplosion(){
     }
 
     //draw enemy's explosion
-    for(var j = 0; j < enemynum; j++){
+    for(var i = 0; i < enemynum; i++){
         if(enemy[i].damage_timer != ANIMEFRAME * 4){
             var page = Math.floor(enemy[i].damage_timer / ANIMEFRAME);
             ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, enemy[i].x - Asset.images['hitimg'].width / 2, enemy[i].y - Asset.images['hitimg'].height / 2);
