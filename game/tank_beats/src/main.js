@@ -370,7 +370,7 @@ function drawSmoke(){
 function drawParameter(){
     ctx.fillText('HP', 670, 20);
     if(loading != LOADINGTIME){
-        fillText('Loading', 650, 140);
+        ctx.fillText('Loading', 650, 140);
     }
     ctx.fillRect(670, 200, (loading / LOADINGTIME) * 100.0, 10);
     ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250)
