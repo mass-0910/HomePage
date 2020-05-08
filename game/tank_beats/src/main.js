@@ -200,6 +200,8 @@ function drawPlayer(){
     ctx.drawImage(player.towerimage, player.towerimage.width - 32, player.towerimage.height - 32);
 
     ctx.restore();
+    
+    ctx.fillRect(player.x, player.y, 3, 3);
 }
 
 function drawEnemies(){
