@@ -186,7 +186,7 @@ function drawMap(){
                 enemy[enemynum].type = 2;
                 map[now_mapnumber].elm[i][j] = 0;
             }
-            ctx.drawImage(Asset.images['map'], map[now_mapnumber].elm[i][j] * 64, 0, 64, 64, posX, poxY, 64, 64);
+            ctx.drawImage(Asset.images['map'], map[now_mapnumber].elm[i][j] * 64, 0, 64, 64, posX, posY, 64, 64);
         }
     }
 }
