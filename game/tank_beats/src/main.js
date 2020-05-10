@@ -435,7 +435,7 @@ function drawParameter(){
     ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250 + 32);
 }
 
-var tmpHP = player.HP;
+var tmpHP;
 var damageEffect;
 function drawDamageEffect(){
     if(tmpHP != player.HP && player.HP != 0) damageEffect = 200;
