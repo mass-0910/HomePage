@@ -496,10 +496,51 @@ function playerSpeed(){
                 player.r -= 0.05;
             }
         }
-
+        if(player.xv > 0 && player.yv < 0){//右上
+            if(player.r < Math.PI / 4.0 && player.r > -(3.0 * Math.PI) / 4.0){
+                player.r -= 0.05;
+            }else{
+                player.r += 0.05;
+            }
+        }
+        if(player.xv > 0 && player.yv > 0){//右下
+            if(player.r < (3.0 * Math.PI) / 4.0 && player.r > -Math.PI / 4.0){
+                player.r -= 0.05;
+            }else{
+                player.r += 0.05;
+            }
+        }
+        if(player.xv < 0 && player.yv < 0){//左上
+            if(player.r < (3.0 * Math.PI) / 4.0 && player.r > -Math.PI / 4.0){
+                player.r += 0.05;
+            }else{
+                player.r -= 0.05;
+            }
+        }
+        if(player.xv < 0 && player.yv > 0){//左下
+            if(player.r > -(3.0 * Math.PI) / 4.0 && player.r < Math.PI / 4.0){
+                player.r += 0.05;
+            }else{
+                player.r -= 0.05;
+            }
+        }
         if(player.r <= -Math.PI) player.r += 2.0 * Math.PI;
         if(player.r >= Math.PI) player.r -= 2.0 * Math.PI;
     }
+
+    //hit to enemy
+    for(var i = 0; i < enemynum; i++){
+        if(distance(enemy[i].x, enemy[i].y, player.x+player.xv, player.y) <= 40) player.xv = 0.0;
+        if(distance(enemy[i].x, enemy[i].y, player.x, player.y+player.yv) <= 40) player.yv = 0.0;
+    }
+
+    //add speed on player's point
+    player.x += player.xv;
+    player.y += player.yv;
+
+    // init speed
+    player.xv = 0.0;
+    player.yv = 0.0;
 }
 
 var Asset = {};
@@ -691,4 +732,8 @@ function readTextFile(file){
     rawFile.send(null);
     while(exitFlag == false);
     return allText;
+}
+
+function distance(x1, y1, x2, y2){
+    return Math.sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2));
 }
