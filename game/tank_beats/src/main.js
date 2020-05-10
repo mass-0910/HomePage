@@ -455,8 +455,8 @@ function playerSpeed(){
         }
         if(key['a'] == true){
             player.xv += -PLAYERV;
+            if(player.x + player.xv <= 0.0) player.xv = 0.0;
             if(map[now_mapnumber].elm[Math.floor((player.x + player.xv) / 64)][Math.floor(player.y / 64)] == 1 || map[now_mapnumber].elm[Math.floor((player.x + player.xv) / 64)][Math.floor(player.y / 64)] == 2) player.xv = 0.0;
-            if(player.x <= 0.0) player.xv = 0.0;
         }
         if(key['w'] == true){
             player.yv += -PLAYERV;
