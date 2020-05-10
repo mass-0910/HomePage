@@ -28,6 +28,7 @@ var SCREEN_HEIGHT = 640;
 var lastTimeStamp = null;
 
 var mouse = { x: 0, y: 0 };
+var key = [];
 
 var player;
 var pbullet = [];
@@ -45,6 +46,10 @@ var in_howtoplay;
 
 map = [];
 var now_mapnumber;
+
+var clear;
+var gameovertime;
+var cleartime;
 
 mesbutton = [];
 
@@ -72,6 +77,21 @@ function init(){
     }, false);
     canvas.addEventListener('click', onClick, false);
 
+    // set key listener
+    canvas.setAttribute('tabindex', 0);
+    canvas.addEventListener('keydown', function(evt){
+        if(evt.key == 'w') key['w'] = true;
+        if(evt.key == 'a') key['a'] = true;
+        if(evt.key == 's') key['s'] = true;
+        if(evt.key == 'd') key['d'] = true;
+    }, false);
+    canvas.addEventListener('keyup', function(evt){
+        if(evt.key == 'w') key['w'] = false;
+        if(evt.key == 'a') key['a'] = false;
+        if(evt.key == 's') key['s'] = false;
+        if(evt.key == 'd') key['d'] = false;
+    }, false);
+
     //map load
     loadMap();
     now_mapnumber = 0;
@@ -82,7 +102,19 @@ function init(){
     mesbutton[2] = { text: 'CREDIT',      x: 200, y: 400 };
 
     //player init
-    player = { x: 32.0, y: 32.0, xv: 0.0, yv: 0.0, r: 0.0, tr: 0.0, HP: 3, damage_timer: ANIMEFRAME * 4, smoke_timer: 0, firepage: 0, bulnum: 0};
+    player = { x: 32.0,
+               y: 32.0,
+               xv: 0.0,
+               yv: 0.0,
+               r: 0.0,
+               tr: 0.0,
+               HP: 3,
+               damage_timer:
+               ANIMEFRAME * 4,
+               smoke_timer: 0,
+               firepage: 0,
+               bulnum: 0
+             };
     for(var i = 0; i < PBULMAX; i++){
         pbullet[i] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0, r: 0.0 };
     }
@@ -96,7 +128,17 @@ function init(){
     //enemy init
     enemynum = 0;
     for(var i = 0; i < EMAX; i++){
-        enemy[i] = { HP: ENEMYHPMAX, damage_timer: ANIMEFRAME * 4, smoke_timer: 0, firepage: 0, r: 0, tr: 0};
+        enemy[i] = { HP: ENEMYHPMAX,
+                     damage_timer: ANIMEFRAME * 4,
+                     smoke_timer: 0,
+                     firepage: 0,
+                     r: 0,
+                     tr: 0,
+                     shotpoint: {x: 0, y: 0},
+                     loading: 0,
+                     bulnum: 0,
+                     noshot: false
+                   };
         enemy[i].bullet = [];
         for(var j = 0; j < EBULMAX; j++){
             enemy[i].bullet[j] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0, r: 0.0 };
@@ -111,6 +153,12 @@ function init(){
     in_game = false;
     in_credit = false;
     in_howtoplay = false;
+
+    tmpHP = player.HP;
+
+    clear = false;
+    gameovertime = 0;
+    cleartime = 0;
 
     console.log("init end");
 };
@@ -127,6 +175,7 @@ function update(timestamp){
     //collision();
 
     draw();
+    playerSpeed();
 
     requestAnimationFrame(update);
 };
@@ -160,11 +209,21 @@ function draw(){
         drawFire();
         drawSmoke();
         drawParameter();
-    }
+        drawDamageEffect();
 
-    if(gameover){
-        ctx.fillText('ゲームオーバー', SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50);
-        ctx.fillText('更新で再挑戦', SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 + 90);
+        if(player.HP == 0){
+            ctx.drawImage(Asset.images['gameover'], 0, 0);
+            if(gameovertime > 100){
+                ctx.fillText('Click to back to the main menu.', 200, 400 + 32);
+            }
+        }
+
+        if(clear){
+            ctx.drawImage(Asset.images['clear'], 0, 0);
+            if(cleartime > 100){
+                ctx.fillText('Click to go to the next stage.', 200, 400 + 32);
+            }
+        }
     }
 
     //draw mouse cursor
@@ -372,9 +431,49 @@ function drawParameter(){
     if(loading != LOADINGTIME){
         ctx.fillText('Loading', 650, 140 + 32);
     }
-    ctx.fillRect(670, 200, (loading / LOADINGTIME) * 100.0, 10 + 32);
-    ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250 + 32)
-    loading++;
+    ctx.fillRect(670, 200, (loading / LOADINGTIME) * 100.0, 10);
+    ctx.fillText('Stage' + (now_mapnumber + 1), 660, 250 + 32);
+}
+
+var tmpHP = player.HP;
+var damageEffect;
+function drawDamageEffect(){
+    if(tmpHP != player.HP && player.HP != 0) damageEffect = 200;
+    if(tmpHP != player.HP && player.HP == 0) damageEffect = 255;
+    ctx.globalAlpha = damageEffect / 255.0;
+    ctx.drawImage(Asset.images['damage'], 0, 0);
+    ctx.globalAlpha = 1.0;
+    if(damageEffect != 0) damageEffect -= 2;
+    tmpHP = player.HP;
+}
+
+function playerSpeed(){
+    if(player.HP != 0){
+        if(key['d'] == true){
+            player.xv += PLAYERV;
+            if(player.x >= 639.0) player.xv = 0.0;
+            if(map[now_mapnumber].elm[Math.floor((player.x + player.xv) / 64)][Math.floor(player.y / 64)] == 1 || map[now_mapnumber].elm[Math.floor((player.x + player.xv) / 64)][Math.floor(player.y / 64)] == 2) player.xv = 0.0;
+        }
+        if(key['a'] == true){
+            player.xv += -PLAYERV;
+            if(map[now_mapnumber].elm[Math.floor((player.x + player.xv) / 64)][Math.floor(player.y / 64)] == 1 || map[now_mapnumber].elm[Math.floor((player.x + player.xv) / 64)][Math.floor(player.y / 64)] == 2) player.xv = 0.0;
+            if(player.x <= 0.0) player.xv = 0.0;
+        }
+        if(key['w'] == true){
+            player.yv += -PLAYERV;
+            if(map[now_mapnumber].elm[Math.floor(player.x / 64)][Math.floor((player.y + player.yv) / 64)] == 1 || map[now_mapnumber].elm[Math.floor(player.x / 64)][Math.floor((player.y + player.yv) / 64)] == 2) player.yv = 0.0;
+            if(player.y <= 0.0) player.yv = 0.0;
+        }
+        if(key['s'] == true){
+            player.yv += PLAYERV;
+            if(player.y >= 639.0) player.yv = 0.0;
+            if(map[now_mapnumber].elm[Math.floor(player.x / 64)][Math.floor((player.y + player.yv) / 64)] == 1 || map[now_mapnumber].elm[Math.floor(player.x / 64)][Math.floor((player.y + player.yv) / 64)] == 2) player.yv = 0.0;
+        }
+        player.x += player.xv;
+        player.y += player.yv;
+        player.xv = 0.0;
+        player.yv = 0.0;
+    }
 }
 
 var Asset = {};
