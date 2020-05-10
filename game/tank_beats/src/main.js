@@ -281,8 +281,6 @@ function drawPlayer(){
     ctx.drawImage(player.towerimage, -(player.towerimage.width / 2), -(player.towerimage.height / 2));
 
     ctx.restore();
-    
-    ctx.fillRect(player.x, player.y, 3, 3);
 }
 
 function drawEnemies(){
@@ -470,10 +468,37 @@ function playerSpeed(){
             if(player.y >= 639.0) player.yv = 0.0;
             if(map[now_mapnumber].elm[Math.floor(player.x / 64)][Math.floor((player.y + player.yv) / 64)] == 1 || map[now_mapnumber].elm[Math.floor(player.x / 64)][Math.floor((player.y + player.yv) / 64)] == 2) player.yv = 0.0;
         }
-        player.x += player.xv;
-        player.y += player.yv;
-        player.xv = 0.0;
-        player.yv = 0.0;
+        if(player.xv > 0.0 && player.yv == 0.0){//right
+            if(player.r > -Math.PI / 2.0 && player.r < Math.PI / 2.0){
+                player.r -= 0.05;
+            }else{
+                player.r += 0.05;
+            }
+        }
+        if(player.xv < 0.0 && player.yv == 0.0){//left
+            if(player.r > -Math.PI / 2.0 && player.r < Math.PI / 2.0){
+                player.r += 0.05;
+            }else{
+                player.r -= 0.05;
+            }
+        }
+        if(player.xv == 0.0 && player.yv < 0.0){//up
+            if(player.r < 0.0){
+                player.r -= 0.05;
+            }else{
+                player.r += 0.05;
+            }
+        }
+        if(player.xv == 0.0 && player.yv > 0.0){//down
+            if(player.r < 0.0){
+                player.r += 0.05;
+            }else{
+                player.r -= 0.05;
+            }
+        }
+
+        if(player.r <= -Math.PI) player.r += 2.0 * Math.PI;
+        if(player.r >= Math.PI) player.r -= 2.0 * Math.PI;
     }
 }
 
