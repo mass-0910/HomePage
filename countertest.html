@@ -34,6 +34,7 @@
         <div class="main">
             <?php
                 echo "hello world!";
+                echo dirname(__FILE__);
                 $fp = fopen("counter.dat", "r+");
                 $txt = fgets($fp);
                 $count = intval($txt);
