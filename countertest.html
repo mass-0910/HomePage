@@ -35,7 +35,7 @@
             <?php
                 echo "hello world!";
                 echo dirname(__FILE__);
-                $fp = fopen("/var/www/html/site/counter.dat", "r");
+                $fp = fopen("/var/www/html/site/counter.dat", "r+");
                 if($fp == FALSE){
                     echo "fopen false";
                 }
