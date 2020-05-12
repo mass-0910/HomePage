@@ -38,6 +38,7 @@
                 $txt = fgets($fp);
                 $count = intval($txt);
                 $count++;
+                echo $count;
                 fseek($fp, 0);
                 fputs($fp, $count);
                 fclose($fp);
