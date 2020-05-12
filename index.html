@@ -67,7 +67,7 @@
             <hr>
             <p>access counter : 
             <?php
-                $fp = fopen("counter.dat", "r+");
+                $fp = fopen("/cgi-bin/counter.dat", "r+");
                 if($fp == FALSE){
                     echo "fopen false";
                 }
