@@ -36,6 +36,9 @@
                 echo "hello world!";
                 echo dirname(__FILE__);
                 $fp = fopen("counter.dat", "r+");
+                if($fp == FALSE){
+                    echo "fopen false";
+                }
                 $txt = fgets($fp);
                 $count = intval($txt);
                 $count++;
