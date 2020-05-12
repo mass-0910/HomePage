@@ -64,6 +64,22 @@
 
         <!-- footer -->
         <footer>
+            <p>access counter : 
+            <?php
+                $fp = fopen("counter.dat", "r+");
+                if($fp == FALSE){
+                    echo "fopen false";
+                }
+                $txt = fgets($fp);
+                $count = intval($txt);
+                $count++;
+                echo $count;
+                fseek($fp, 0);
+                fputs($fp, strval($count));
+                flock($fp, LOCK_UN);
+                fclose($fp);
+            ?>
+            access.</p>
             <hr>
             last update :
             <script type="text/javascript">
