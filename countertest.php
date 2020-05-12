@@ -34,6 +34,7 @@
         <div class="main">
             <?php
             echo "hello world!";
+            fopen("counter.dat", "r");
             ?>
         </div>
 
