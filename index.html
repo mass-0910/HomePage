@@ -64,6 +64,7 @@
 
         <!-- footer -->
         <footer>
+            <hr>
             <p>access counter : 
             <?php
                 $fp = fopen("counter.dat", "r+");
@@ -80,7 +81,6 @@
                 fclose($fp);
             ?>
             access.</p>
-            <hr>
             last update :
             <script type="text/javascript">
                 document.write(document.lastModified);
