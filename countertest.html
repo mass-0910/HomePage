@@ -40,7 +40,7 @@
                 $count++;
                 echo $count;
                 fseek($fp, 0);
-                fputs($fp, $count);
+                fputs($fp, strval($count));
                 fclose($fp);
             ?>
         </div>
