@@ -34,7 +34,17 @@
         <div class="main">
             <?php
             echo "hello world!";
-            fopen("counter.dat", "r");
+            $fp = fopen("counter.dat", "r");
+            while (!feof($fp)) {
+ 
+                // fgetsでファイルを読み込み、変数に格納
+                $txt = fgets($fp);
+               
+                // ファイルを読み込んだ変数を出力
+                echo $txt.'<br>';
+               
+            }
+            fclose($fp);
             ?>
         </div>
 
