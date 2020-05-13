@@ -59,7 +59,7 @@
                 </div>
                 <input type="submit" name="btn_submit" value="書き込む">
             </form> -->
-            <form action="regist.php" method="post">
+            <form action="commentformtest.html" method="post">
                 名前：<br />
                 <input type="text" name="name" size="30" value="" /><br />
                 メールアドレス：<br />
@@ -68,7 +68,10 @@
                 <textarea name="comment" cols="30" rows="5"></textarea><br />
                 <br />
                 <input type="submit" value="登録する" />
-              </form>
+            </form>
+            <?php
+                var_dump($_POST);
+            ?>
         </div>
 
         <!-- footer -->
