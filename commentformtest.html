@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="description" content="鮭男のホームページ">
+        <meta name="keywords" contents="鮭男">
+        <meta name="twitter:title" content="鮭男のホームページ">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https://www.mass-site.work/img/card.png">
+        <meta name="twitter:image:alt" content="shakeo">
+        <meta name="twitter:description" content="作ったゲームとかブログとか載せてます。">
+        <meta name="twitter:url" content="https://www.mass-site.work/index.html">
+        <meta name="twitter:site" content="@manjyu0910">
+        <meta name="twitter:domain" content="www.mass-site.work">
+        <meta property="og:title" content="鮭男のホームページ">
+        <meta property="og:url" content="https://www.mass-site.work/index.html">
+        <meta property="og:site_name" content="鮭男のホームページ">
+        <meta property="og:image" content="https://www.mass-site.work/img/card.png">
+        <meta property="og:image:alt" content="shakeo"">
+        <meta property="og:description" content="作ったゲームとかブログとか載せてます。">
+        <meta property="og:locale" content="ja_JP">
+        <title>Tips/鮭男のホームページ</title>
+        <link rel="stylesheet" href="css/stylesheet.css">
+        <link rel="icon" href="favicon.ico">
+    </head>
+    <body>
+        <!-- header -->
+        <script src="common_js/headermaker.js"></script>
+        <script>header(0, 0)</script>
+        <!-- <header>
+            <img src="img/logo.png" alt="ロゴ" width="128" height="128">
+            <div>
+            <h1>鮭男のホームページ</h1>
+            <nav>
+                <ul>
+                    <a href="index.html"><li class="selected">Tips</li></a>
+                    <a href="about.html"><li>About</li></a>
+                    <a href="blog.html"><li>Blog</li></a>
+                    <a href="games.html"><li>Games</li></a>
+                </ul>
+            </nav>
+            </div>
+        </header> -->
+        <hr>
+        鮭男のホームページへようこそ
+
+        <!-- tips -->
+        <div class="main">
+            <!-- <form method="post">
+                <div>
+                    <label for="view_name">表示名</label>
+                    <input id="view_name" type="text" name="view_name" value="">
+                </div>
+                <div>
+                    <label for="message">ひと言メッセージ</label>
+                    <textarea id="message" name="message"></textarea>
+                </div>
+                <input type="submit" name="btn_submit" value="書き込む">
+            </form> -->
+            <form action="regist.php" method="post">
+                名前：<br />
+                <input type="text" name="name" size="30" value="" /><br />
+                メールアドレス：<br />
+                <input type="text" name="mail" size="30" value="" /><br />
+                コメント：<br />
+                <textarea name="comment" cols="30" rows="5"></textarea><br />
+                <br />
+                <input type="submit" value="登録する" />
+              </form>
+        </div>
+
+        <!-- footer -->
+        <footer>
+            <hr>
+            last update :
+            <script type="text/javascript">
+                document.write(document.lastModified);
+            </script><br>
+            © 2020 Shakeo
+        </footer>
+    </body>
+</html>
