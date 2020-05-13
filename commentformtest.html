@@ -74,7 +74,7 @@
                 date_default_timezone_set('Asia/Tokyo');
                 $now_date = date("Y-m-d H:i:s");
 
-                if(!empty($_POST['btn_submit'])){
+                if(!empty($_POST['comment'])){
                     echo 'in';
                     if($fp = fopen(FILENAME, "a")){
                         $data = "'".$_POST['name']."','".$_POST['comment']."','".$now_date."'\n";
