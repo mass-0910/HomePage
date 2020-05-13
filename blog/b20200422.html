@@ -106,7 +106,7 @@
             <br />
             <input type="submit" name='btn_submit' value="投稿する" />
         </form>
-        過去のコメント
+        <p>過去のコメント</p>
         <?php
             define( 'FILENAME', '/cgi-bin/b20200422_comment.txt');
             $now_date = null;
@@ -142,24 +142,23 @@
                         echo 'fileopen a failed';
                     }
                 }
-    
-                if($fp = fopen( FILENAME,'r')) {
-                    while($data = fgets($fp)){
-                        //echo $data . "<br>";
-                        $split_data = preg_split( '/\'/', $data);
-                        $message = array(
-                            'view_name' => $split_data[1],
-                            'message' => $split_data[3],
-                            'post_date' => $split_data[5]
-                        );
-                        array_unshift( $message_array, $message);
-                    }
-                    fclose($fp);
-                }else{
-                    echo 'fileopen r failed';
-                }
             }
-
+            
+            if($fp = fopen( FILENAME,'r')) {
+                while($data = fgets($fp)){
+                    //echo $data . "<br>";
+                    $split_data = preg_split( '/\'/', $data);
+                    $message = array(
+                        'view_name' => $split_data[1],
+                        'message' => $split_data[3],
+                        'post_date' => $split_data[5]
+                    );
+                    array_unshift( $message_array, $message);
+                }
+                fclose($fp);
+            }else{
+                echo 'fileopen r failed';
+            }
         ?>
         <br>
         <?php if( !empty($error_message) ): ?>
