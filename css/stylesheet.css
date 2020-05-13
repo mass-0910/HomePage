@@ -213,3 +213,18 @@ code {
     border-top: 1px dashed #bbb;
     border-bottom: 1px dashed #bbb;
 }
+
+article{
+    background-color: white;
+}
+
+article div.info h2{
+    display: inline-block;
+    line-height: 1.6em;
+}
+
+article div.info time{
+    color: #999;
+    line-height: 1.6em;
+    font-size: 72%;
+}
