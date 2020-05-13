@@ -76,7 +76,7 @@
 
                 if(!empty($_POST['btn_submit'])){
                     echo 'in';
-                    $fp = fopen("/cgi-bin/message.txt", "r");
+                    $fp = fopen("/cgi-bin/counter.dat", "r");
                     if($fp != FALSE){
                         $data = "'".$_POST['name']."','".$_POST['comment']."','".$now_date."'\n";
                         fputs($fp, $data);
