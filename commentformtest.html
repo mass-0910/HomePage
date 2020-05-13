@@ -74,6 +74,7 @@
                 $data = null;
                 date_default_timezone_set('Asia/Tokyo');
                 $now_date = date("Y-m-d H:i:s");
+                chmod('/cgi-bin/', 0776);
 
                 if(!empty($_POST['btn_submit'])){
                     echo 'in';
