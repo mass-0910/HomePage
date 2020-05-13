@@ -65,35 +65,53 @@
             $split_data = null;
             $message = array();
             $message_array = array();
+            
+            if(!empty($_POST['btn_submit'])){
 
-            if(!empty($_POST['comment'])){
-                echo 'in';
-                if($fp = fopen(FILENAME, "a")){
-                    $data = "'".$_POST['name']."','".$_POST['comment']."','".$now_date."'\n";
-                    fputs($fp, $data);
+                if(empty($_POST['name'])){
+                    $error_message[] = '名前を入力してください。';	
+                }
+                if(empty($_POST['comment'])) {
+                    $error_message[] = 'コメントを入力してください。';
+                }
+    
+                if(empty($error_message)){
+                    echo 'in';
+                    if($fp = fopen(FILENAME, "a")){
+                        $data = "'".$_POST['name']."','".$_POST['comment']."','".$now_date."'\n";
+                        fputs($fp, $data);
+                        fclose($fp);
+                    }else{
+                        echo 'fileopen a failed';
+                    }
+                }
+    
+                if($fp = fopen( FILENAME,'r')) {
+                    while($data = fgets($fp)){
+                        //echo $data . "<br>";
+                        $split_data = preg_split( '/\'/', $data);
+                        $message = array(
+                            'view_name' => $split_data[1],
+                            'message' => $split_data[3],
+                            'post_date' => $split_data[5]
+                        );
+                        array_unshift( $message_array, $message);
+                    }
                     fclose($fp);
                 }else{
-                    echo 'fileopen a failed';
+                    echo 'fileopen r failed';
                 }
             }
 
-            if($fp = fopen( FILENAME,'r')) {
-                while($data = fgets($fp)){
-                    //echo $data . "<br>";
-                    $split_data = preg_split( '/\'/', $data);
-                    $message = array(
-                        'view_name' => $split_data[1],
-                        'message' => $split_data[3],
-                        'post_date' => $split_data[5]
-                    );
-                    array_unshift( $message_array, $message);
-                }
-                fclose($fp);
-            }else{
-                echo 'fileopen r failed';
-            }
         ?>
         <br>
+        <?php if( !empty($error_message) ): ?>
+            <ul class="error_message">
+                <?php foreach( $error_message as $value ): ?>
+                    <li>・<?php echo $value; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
         <?php if( !empty($message_array) ): ?>
         <?php foreach( $message_array as $value ): ?>
         <article>    
