@@ -83,15 +83,15 @@
                     }else{
                         echo 'fileopen a failed';
                     }
-
-                    if($fp = fopen( FILENAME,'r')) {
-                        while($data = fgets($fp)){
-                            echo $data . "<br>";
-                        }
-                        fclose($fp);
-                    }else{
-                        echo 'fileopen r failed';
+                }
+                
+                if($fp = fopen( FILENAME,'r')) {
+                    while($data = fgets($fp)){
+                        echo $data . "<br>";
                     }
+                    fclose($fp);
+                }else{
+                    echo 'fileopen r failed';
                 }
             ?>
         </div>
