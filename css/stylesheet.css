@@ -216,10 +216,12 @@ code {
 
 article{
     background-color: white;
+    padding: 20px;
 }
 
 article div.info h2{
     display: inline-block;
+    margin-bottom: 10px;
     line-height: 1.6em;
 }
 
