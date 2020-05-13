@@ -217,6 +217,7 @@ code {
 article{
     background-color: white;
     padding: 20px;
+    margin-bottom: 10px;
 }
 
 article div.info h2{
