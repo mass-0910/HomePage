@@ -79,7 +79,7 @@
                 if(!empty($_POST['btn_submit'])){
                     echo 'in';
                     echo FILENAME;
-                    if($fp = fopen(FILENAME, 'r+')){
+                    if($fp = fopen(FILENAME, 'r')){
                         $data = "'".$_POST['name']."','".$_POST['comment']."','".$now_date."'\n";
                         fputs($fp, $data);
 
