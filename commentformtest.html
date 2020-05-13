@@ -82,7 +82,6 @@
             	}
     
                 if(empty($error_message)){
-                    echo 'in';
                     if($fp = fopen(FILENAME, "a")){
                         $data = "'".$clean['view_name']."','".$clean['message']."','".$now_date."'\n";
                         fputs($fp, $data);
