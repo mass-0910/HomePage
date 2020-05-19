@@ -754,7 +754,7 @@ function moveEnemy(){
         if(enemy[i].x+enemy[i].xv <= 0.0) enemy[i].xv = 0.0;
         if(enemy[i].y+enemy[i].yv >= 639.0) enemy[i].yv = 0.0;
         if(enemy[i].y+enemy[i].yv <= 0.0) enemy[i].yv = 0.0;
-        console.log("aaa" + Math.floor((enemy[i].x+enemy[i].xv)/64) + ", " + Math.floor(enemy[i].y/64));
+        console.log("x:" + enemy[i].x + " xv:" + enemy[i].xv + " &&& " + Math.floor((enemy[i].x+enemy[i].xv)/64) + ", " + Math.floor(enemy[i].y/64));
         if(map[now_mapnumber].elm[Math.floor((enemy[i].x+enemy[i].xv)/64)][Math.floor(enemy[i].y/64)] == 1 || map[now_mapnumber].elm[Math.floor((enemy[i].x+enemy[i].xv)/64)][Math.floor(enemy[i].y/64)] == 2) enemy[i].xv = 0.0;
         if(map[now_mapnumber].elm[Math.floor(enemy[i].x/64)][Math.floor((enemy[i].y+enemy[i].yv)/64)] == 1 || map[now_mapnumber].elm[Math.floor(enemy[i].x/64)][Math.floor((enemy[i].y+enemy[i].yv)/64)] == 2) enemy[i].yv = 0.0;
     }
