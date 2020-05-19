@@ -156,7 +156,11 @@ function init(){
     //enemy init
     enemynum = 0;
     for(var i = 0; i < EMAX; i++){
-        enemy[i] = { HP: ENEMYHPMAX,
+        enemy[i] = { x: 0.0,
+                     y: 0.0,
+                     xv: 0.0,
+                     yv: 0.0,
+                     HP: ENEMYHPMAX,
                      damage_timer: ANIMEFRAME * 4,
                      smoke_timer: 0,
                      firepage: 0,
