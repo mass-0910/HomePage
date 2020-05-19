@@ -46,12 +46,35 @@ var in_howtoplay;
 
 map = [];
 var now_mapnumber;
+var dmap = [];
 
 var clear;
 var gameovertime;
 var cleartime;
 
 mesbutton = [];
+
+var Asset = {};
+
+Asset.assets = [
+    { type: 'image', name: 'back', src: 'tank_beats/data/black.png' },
+    { type: 'image', name: 'title', src: 'tank_beats/data/title.png' },
+    { type: 'image', name: 'cursor', src: 'tank_beats/data/target.png' },
+    { type: 'image', name: 'map', src: 'tank_beats/data/map.png' },
+    { type: 'image', name: 'tankbody', src: 'tank_beats/data/tankbody.png' },
+    { type: 'image', name: 'tankhead', src: 'tank_beats/data/tankhead.png' },
+    { type: 'image', name: 'enemybody', src: 'tank_beats/data/enemybody.png' },
+    { type: 'image', name: 'enemyhead', src: 'tank_beats/data/enemyhead.png'},
+    { type: 'image', name: 'bullet', src: 'tank_beats/data/bullet.png' },
+    { type: 'image', name: 'hitimg', src: 'tank_beats/data/hitimg.png' },
+    { type: 'image', name: 'smoke', src: 'tank_beats/data/smoke.png' },
+    { type: 'image', name: 'fire', src: 'tank_beats/data/fire.png' },
+    { type: 'image', name: 'damage', src: 'tank_beats/data/damage.png'},
+    { type: 'image', name: 'gameover', src: 'tank_beats/data/gameover.png' },
+    { type: 'image', name: 'clear', src: 'tank_beats/data/clear.png'}
+];
+
+Asset.images = [];
 
 function init(){
 
@@ -96,6 +119,11 @@ function init(){
     loadMap();
     now_mapnumber = 0;
 
+    //init distance map
+    for(var i = 0; i < 10; i++){
+        dmap[i] = new Array(10);
+    }
+
     //mesbutton init
     mesbutton[0] = { text: 'START',       x: 200, y: 300 };
     mesbutton[1] = { text: 'HOW TO PLAY', x: 200, y: 350 };
@@ -137,7 +165,9 @@ function init(){
                      shotpoint: {x: 0, y: 0},
                      loading: 0,
                      bulnum: 0,
-                     noshot: false
+                     noshot: false,
+                     mapX: 0,
+                     mapY:0
                    };
         enemy[i].bullet = [];
         for(var j = 0; j < EBULMAX; j++){
@@ -176,7 +206,16 @@ function update(timestamp){
     //collision();
 
     draw();
-    playerSpeed();
+    movePlayer();
+
+    //make enemymap
+    for(var i = 0; i < enemynum; i++){
+        enemy[i].mapX = Math.floor(enemy[i].x / 64);
+        enemy[i].mapY = Math.floor(enemy[i].y / 64);
+    }
+    
+    make_dmap();
+    moveEnemy();
 
     requestAnimationFrame(update);
 };
@@ -446,7 +485,7 @@ function drawDamageEffect(){
     tmpHP = player.HP;
 }
 
-function playerSpeed(){
+function movePlayer(){
     if(player.HP != 0){
         if(key['d'] == true){
             player.xv += PLAYERV;
@@ -543,27 +582,273 @@ function playerSpeed(){
     player.yv = 0.0;
 }
 
-var Asset = {};
+function make_dmap(){
+    var changed;
 
-Asset.assets = [
-    { type: 'image', name: 'back', src: 'tank_beats/data/black.png' },
-    { type: 'image', name: 'title', src: 'tank_beats/data/title.png' },
-    { type: 'image', name: 'cursor', src: 'tank_beats/data/target.png' },
-    { type: 'image', name: 'map', src: 'tank_beats/data/map.png' },
-    { type: 'image', name: 'tankbody', src: 'tank_beats/data/tankbody.png' },
-    { type: 'image', name: 'tankhead', src: 'tank_beats/data/tankhead.png' },
-    { type: 'image', name: 'enemybody', src: 'tank_beats/data/enemybody.png' },
-    { type: 'image', name: 'enemyhead', src: 'tank_beats/data/enemyhead.png'},
-    { type: 'image', name: 'bullet', src: 'tank_beats/data/bullet.png' },
-    { type: 'image', name: 'hitimg', src: 'tank_beats/data/hitimg.png' },
-    { type: 'image', name: 'smoke', src: 'tank_beats/data/smoke.png' },
-    { type: 'image', name: 'fire', src: 'tank_beats/data/fire.png' },
-    { type: 'image', name: 'damage', src: 'tank_beats/data/damage.png'},
-    { type: 'image', name: 'gameover', src: 'tank_beats/data/gameover.png' },
-    { type: 'image', name: 'clear', src: 'tank_beats/data/clear.png'}
-];
+    for(var j = 0; j < 10; j++){
+        for(var i = 0; i < 10; i++){
+            dmap[i][j] = 0;
+        }
+    }
+    
+    dmap[Math.floor(player.x / 64)][Math.floor(player.y / 64)] = 50;
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].HP == 0){
+            dmap[enemy[i].mapX][enemy[i].mapY] = -1;
+        }
+    }
 
-Asset.images = [];
+    for(var d = 0; d < 50; d++){
+        changed = 0;
+        for(var j = 0; j < 10; j++){
+            for(var i = 0; i < 10; i++){
+                if(dmap[i][j] != 0 && dmap[i][j] != -1){
+                    if(i-1 >= 0){if(map[now_mapnumber].elm[i-1][j] != 1 && map[now_mapnumber].elm[i-1][j] != 2 && dmap[i-1][j] == 0) dmap[i-1][j] = dmap[i][j] -1 ; changed = 1;}
+                    if(i+1 <= 9){if(map[now_mapnumber].elm[i+1][j] != 1 && map[now_mapnumber].elm[i+1][j] != 2 && dmap[i+1][j] == 0) dmap[i+1][j] = dmap[i][j] -1 ; changed = 1;}
+                    if(j-1 >= 0){if(map[now_mapnumber].elm[i][j-1] != 1 && map[now_mapnumber].elm[i][j-1] != 2 && dmap[i][j-1] == 0) dmap[i][j-1] = dmap[i][j] -1 ; changed = 1;}
+                    if(j+1 <= 9){if(map[now_mapnumber].elm[i][j+1] != 1 && map[now_mapnumber].elm[i][j+1] != 2 && dmap[i][j+1] == 0) dmap[i][j+1] = dmap[i][j] -1 ; changed = 1;}
+                }
+            }
+        }
+        if(changed == 0)break;
+    }
+}
+
+function moveEnemy(){
+    var direction;
+    var tmparray = [];
+
+    //enemy speed
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].HP != 0){
+            switch(enemy[i].type){
+
+                case 0://好戦家
+                    if(dmap[enemy[i].mapX][ enemy[i].mapY] < DISTANCEMAX - 4){
+                        for(var j = 0; j < 8; j++){
+                            tmparray[j] = 0;
+                        }
+                        if(enemy[i].mapY - 1 >= 0)  tmparray[0] = dmap[enemy[i].mapX][ enemy[i].mapY - 1];//上
+                        if(enemy[i].mapY + 1 <= 9)  tmparray[1] = dmap[enemy[i].mapX][ enemy[i].mapY + 1];//下
+                        if(enemy[i].mapX - 1 >= 0)  tmparray[2] = dmap[enemy[i].mapX - 1][ enemy[i].mapY];//左
+                        if(enemy[i].mapX + 1 <= 9)  tmparray[3] = dmap[enemy[i].mapX + 1][ enemy[i].mapY];//右
+                        if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY - 1 >= 0)  tmparray[4] = dmap[enemy[i].mapX - 1][ enemy[i].mapY - 1];//左上
+                        if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY - 1 >= 0)  tmparray[5] = dmap[enemy[i].mapX + 1][ enemy[i].mapY - 1];//右上
+                        if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
+                        if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
+                        direction = tmparray.indexOf(Math.max(...tmparray));//tmparray.reduce((a, b) => a > b ? a : b);
+                        switch(direction){
+                            case -1: break;
+                            case 0 : enemy[i].yv += -ENEMYV ; break;
+                            case 1 : enemy[i].yv += ENEMYV ; break;
+                            case 2 : enemy[i].xv += -ENEMYV ; break;
+                            case 3 : enemy[i].xv += ENEMYV ; break;
+                            case 4 : enemy[i].xv += -ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                            case 5 : enemy[i].xv += ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                            case 6 : enemy[i].xv += ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                            case 7 : enemy[i].xv += -ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                        }
+                    }
+                    break;
+            
+                case 1://慎重派
+                    if(dmap[enemy[i].mapX][ enemy[i].mapY] > DISTANCEMAX - 10){
+                        for(var j = 0; j < 8; j++){
+                            tmparray[j] = DISTANCEMAX + 1;
+                        }
+                        if(enemy[i].mapY - 1 >= 0)  tmparray[0] = dmap[enemy[i].mapX][ enemy[i].mapY - 1];//上
+                        if(enemy[i].mapY + 1 <= 9)  tmparray[1] = dmap[enemy[i].mapX][ enemy[i].mapY + 1];//下
+                        if(enemy[i].mapX - 1 >= 0)  tmparray[2] = dmap[enemy[i].mapX - 1][ enemy[i].mapY];//左
+                        if(enemy[i].mapX + 1 <= 9)  tmparray[3] = dmap[enemy[i].mapX + 1][ enemy[i].mapY];//右
+                        if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY - 1 >= 0)  tmparray[4] = dmap[enemy[i].mapX - 1][ enemy[i].mapY - 1];//左上
+                        if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY - 1 >= 0)  tmparray[5] = dmap[enemy[i].mapX + 1][ enemy[i].mapY - 1];//右上
+                        if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
+                        if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
+                        direction = tmparray.indexOf(Math.min(...tmparray));
+                        switch(direction){
+                            case -1: break;
+                            case 0 : enemy[i].yv += -ENEMYV ; break;
+                            case 1 : enemy[i].yv += ENEMYV ; break;
+                            case 2 : enemy[i].xv += -ENEMYV ; break;
+                            case 3 : enemy[i].xv += ENEMYV ; break;
+                            case 4 : enemy[i].xv += -ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                            case 5 : enemy[i].xv += ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                            case 6 : enemy[i].xv += ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                            case 7 : enemy[i].xv += -ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                        }
+                    }
+                    break;
+                    
+                case 2://策略家
+                    if(enemy[i].loading != LOADINGTIME){
+                        for(var j = 0; j < 8; j++){
+                            tmparray[j] = DISTANCEMAX + 1;
+                        }
+                        if(enemy[i].mapY - 1 >= 0)  tmparray[0] = dmap[enemy[i].mapX][ enemy[i].mapY - 1];//上
+                        if(enemy[i].mapY + 1 <= 9)  tmparray[1] = dmap[enemy[i].mapX][ enemy[i].mapY + 1];//下
+                        if(enemy[i].mapX - 1 >= 0)  tmparray[2] = dmap[enemy[i].mapX - 1][ enemy[i].mapY];//左
+                        if(enemy[i].mapX + 1 <= 9)  tmparray[3] = dmap[enemy[i].mapX + 1][ enemy[i].mapY];//右
+                        if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY - 1 >= 0)  tmparray[4] = dmap[enemy[i].mapX - 1][ enemy[i].mapY - 1];//左上
+                        if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY - 1 >= 0)  tmparray[5] = dmap[enemy[i].mapX + 1][ enemy[i].mapY - 1];//右上
+                        if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
+                        if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
+                        direction = tmparray.indexOf(Math.min(...tmparray));//tmparray.reduce((a, b) => a < b ? a : b);
+                        switch(direction){
+                            case -1: break;
+                            case 0 : enemy[i].yv += -ENEMYV ; break;
+                            case 1 : enemy[i].yv += ENEMYV ; break;
+                            case 2 : enemy[i].xv += -ENEMYV ; break;
+                            case 3 : enemy[i].xv += ENEMYV ; break;
+                            case 4 : enemy[i].xv += -ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                            case 5 : enemy[i].xv += ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                            case 6 : enemy[i].xv += ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                            case 7 : enemy[i].xv += -ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                        }
+                    }else{
+                        //見えているかの判定(下からのコピー)
+                        for(var k = 0; k < 50; k++){
+                            var bitx, bity;
+                            bitx = (enemy[i].x + Math.cos(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+                            bity = (enemy[i].y + Math.sin(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+                            if(map[now_mapnumber].elm[Math.floor(bitx/64)][ Math.floor(bity/64)] == 1){
+                                enemy[i].noshot = true;//見えていない
+                                break;
+                            }else{
+                                enemy[i].noshot = false;//見えている
+                            }
+                        }
+                        if(enemy[i].noshot == true){
+                            for(var j = 0; j < 8; j++){
+                                tmparray[j] = 0;
+                            }
+                            if(enemy[i].mapY - 1 >= 0)  tmparray[0] = dmap[enemy[i].mapX][ enemy[i].mapY - 1];//上
+                            if(enemy[i].mapY + 1 <= 9)  tmparray[1] = dmap[enemy[i].mapX][ enemy[i].mapY + 1];//下
+                            if(enemy[i].mapX - 1 >= 0)  tmparray[2] = dmap[enemy[i].mapX - 1][ enemy[i].mapY];//左
+                            if(enemy[i].mapX + 1 <= 9)  tmparray[3] = dmap[enemy[i].mapX + 1][ enemy[i].mapY];//右
+                            if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY - 1 >= 0)  tmparray[4] = dmap[enemy[i].mapX - 1][ enemy[i].mapY - 1];//左上
+                            if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY - 1 >= 0)  tmparray[5] = dmap[enemy[i].mapX + 1][ enemy[i].mapY - 1];//右上
+                            if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
+                            if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
+                            direction = tmparray.indexOf(Math.max(...tmparray));
+                            switch(direction){
+                                case -1: break;
+                                case 0 : enemy[i].yv += -ENEMYV ; break;
+                                case 1 : enemy[i].yv += ENEMYV ; break;
+                                case 2 : enemy[i].xv += -ENEMYV ; break;
+                                case 3 : enemy[i].xv += ENEMYV ; break;
+                                case 4 : enemy[i].xv += -ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                                case 5 : enemy[i].xv += ENEMYV ; enemy[i].yv += -ENEMYV ; break;
+                                case 6 : enemy[i].xv += ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                                case 7 : enemy[i].xv += -ENEMYV ; enemy[i].yv += ENEMYV ; break;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    //collide to wall
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].x+enemy[i].xv >= 639.0) enemy[i].xv = 0.0;
+        if(enemy[i].x+enemy[i].xv <= 0.0) enemy[i].xv = 0.0;
+        if(enemy[i].y+enemy[i].yv >= 639.0) enemy[i].yv = 0.0;
+        if(enemy[i].y+enemy[i].yv <= 0.0) enemy[i].yv = 0.0;
+        if(map[now_mapnumber].elm[Math.floor((enemy[i].x+enemy[i].xv)/64)][Math.floor(enemy[i].y/64)] == 1 || map[now_mapnumber].elm[Math.floor((enemy[i].x+enemy[i].xv)/64)][Math.floor(enemy[i].y/64)] == 2) enemy[i].xv = 0.0;
+        if(map[now_mapnumber].elm[Math.floor(enemy[i].x/64)][Math.floor((enemy[i].y+enemy[i].yv)/64)] == 1 || map[now_mapnumber].elm[Math.floor(enemy[i].x/64)][Math.floor((enemy[i].y+enemy[i].yv)/64)] == 2) enemy[i].yv = 0.0;
+    }
+
+    //collide to player
+    for(var i = 0; i < enemynum; i++){
+        if(distance(enemy[i].x+enemy[i].xv, enemy[i].y, player.x, player.y) <= 40) enemy[i].xv = 0.0;
+        if(distance(enemy[i].x, enemy[i].y+enemy[i].yv, player.x, player.y) <= 40) enemy[i].yv = 0.0;
+    }
+
+    //collide to another enemy
+    for(var j = 0; j < enemynum; j++){
+        for(var i = 0; i < enemynum; i++){
+            if(i != j){
+                if(distance(enemy[j].x+enemy[j].xv, enemy[j].y, enemy[i].x, enemy[i].y) <= 40) enemy[j].xv = 0.0;
+                if(distance(enemy[j].x, enemy[j].y+enemy[j].yv, enemy[i].x, enemy[i].y) <= 40) enemy[j].yv = 0.0;
+            }
+        }
+    }
+
+    //enemy's body angle
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].xv > 0.0 && enemy[i].yv == 0.0){
+            if(enemy[i].r > -Math.PI/2.0 && enemy[i].r < Math.PI/2.0){
+                enemy[i].r -= 0.05;
+            }else{
+                enemy[i].r += 0.05;
+            }
+        }
+        if(enemy[i].xv < 0.0 && enemy[i].yv == 0.0){
+            if(enemy[i].r > -Math.PI/2.0 && enemy[i].r < Math.PI/2.0){
+                enemy[i].r += 0.05;
+            }else{
+                enemy[i].r -= 0.05;
+            }
+        }
+        if(enemy[i].xv == 0.0 && enemy[i].yv < 0.0){
+            if(enemy[i].r  < 0.0){
+                enemy[i].r -= 0.05;
+            }else{
+                enemy[i].r += 0.05;
+            }
+        }
+        if(enemy[i].xv == 0.0 && enemy[i].yv > 0.0){
+            if(enemy[i].r  < 0.0){
+                enemy[i].r += 0.05;
+            }else{
+                enemy[i].r -= 0.05;
+            }
+        }
+        if(enemy[i].xv > 0.0 && enemy[i].yv < 0.0){
+            if(enemy[i].r < Math.PI/4.0 && enemy[i].r > -(3.0*Math.PI)/4.0){
+                enemy[i].r -= 0.05;
+            }else{
+                enemy[i].r += 0.05;
+            }
+        }
+        if(enemy[i].xv > 0.0 && enemy[i].yv > 0.0){
+            if(enemy[i].r < (3.0*Math.PI)/4.0 && enemy[i].r > -Math.PI/4.0){
+                enemy[i].r -= 0.05;
+            }else{
+                enemy[i].r += 0.05;
+            }
+        }
+        if(enemy[i].xv < 0.0 && enemy[i].yv < 0.0){
+            if(enemy[i].r < (3.0*Math.PI)/4.0 && enemy[i].r > -Math.PI/4.0){
+                enemy[i].r += 0.05;
+            }else{
+                enemy[i].r -= 0.05;
+            }
+        }
+        if(enemy[i].xv < 0.0 && enemy[i].yv > 0.0){
+            if(enemy[i].r > -(3.0*Math.PI)/4.0 && enemy[i].r < Math.PI/4.0){
+                enemy[i].r += 0.05;
+            }else{
+                enemy[i].r -= 0.05;
+            }
+        }
+        if(enemy[i].r <= -Math.PI) enemy[i].r += 2.0 * Math.PI;
+        if(enemy[i].r >=  Math.PI) enemy[i].r -= 2.0 * Math.PI;
+    }
+
+    //add speed on point
+    for(var i = 0; i < enemynum; i++){
+        enemy[i].x += enemy[i].xv;
+        enemy[i].y += enemy[i].yv;
+    }
+
+    //initialize enemy speed
+    for(var i = 0; i < enemynum; i++){
+        enemy[i].xv = 0.0;
+        enemy[i].yv = 0.0;
+    }
+    
+}
 
 Asset.loadAssets = function(onComplete){
 
