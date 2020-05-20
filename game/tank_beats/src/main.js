@@ -221,6 +221,8 @@ function update(timestamp){
     make_dmap();
     moveEnemy();
 
+    movePlayerGunTower();
+
     requestAnimationFrame(update);
 };
 
