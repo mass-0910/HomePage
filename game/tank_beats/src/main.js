@@ -882,7 +882,7 @@ function playerBullet(){
         for(var i = 0; i < 10; i++){
             if(map[now_mapnumber].elm[i][j] == 1){
                 for(var bul_i = 0; bul_i < PBULMAX; bul_i++){
-                    if(pbullet[bul_i].x > i * 64 && pbullet[bul_i].x > (i+1) * 64 && pbullet[bul_i].y > j * 64 && pbullet[bul_i].y > (j+1) * 64){
+                    if(pbullet[bul_i].x > i * 64 && pbullet[bul_i].x < (i+1) * 64 && pbullet[bul_i].y > j * 64 && pbullet[bul_i].y < (j+1) * 64){
                         pbullet[bul_i].x = -1.0;
                         pbullet[bul_i].y = -1.0;
                         pbullet[bul_i].xv = 0.0;
