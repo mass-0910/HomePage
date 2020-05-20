@@ -857,9 +857,10 @@ function moveEnemy(){
 }
 
 function movePlayerGunTower(){
+    var tmpx;
     if(player.HP != 0){
-        player.tr = Math.atan((mouse.y - player.y) / (mouse.x - player.x)) - (Math.PI / 2.0);
-        if(mouse.x - player.x < 0.0) player.tr *= -1;
+        tmpx = (mouse.x - player.x < 0.0) ? mouse.x - player.x : player.x - mouse.x;
+        player.tr = Math.atan((mouse.y - player.y) / tmpx) - (Math.PI / 2.0);
     }
 }
 
