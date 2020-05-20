@@ -950,7 +950,7 @@ function onClick(){
     if(in_game){
         if(player.shotable){
             for(var i = 0; i < PBULMAX; i++){
-                if(pbullet[i].x != -1.0){
+                if(pbullet[i].x == -1.0){
                     pbullet[i].r = player.tr;
                     pbullet[i].x = player.x + Math.cos(player.tr + Math.PI / 2.0) * 30.0;
                     pbullet[i].y = player.y + Math.sin(player.tr + Math.PI / 2.0) * 30.0;
