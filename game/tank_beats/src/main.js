@@ -223,6 +223,7 @@ function update(timestamp){
     moveEnemy();
 
     movePlayerGunTower();
+    playerBullet();
 
     requestAnimationFrame(update);
 };
