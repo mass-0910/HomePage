@@ -854,6 +854,12 @@ function moveEnemy(){
     
 }
 
+function movePlayerGunTower(){
+    if(player.HP != 0){
+        player.tr = Math.atan((mouse.y - player.y) / (mouse.x - player.x));
+    }
+}
+
 Asset.loadAssets = function(onComplete){
 
     var total = Asset.assets.length;
