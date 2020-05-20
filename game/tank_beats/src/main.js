@@ -348,7 +348,7 @@ function drawBullet(){
 
     //draw player's bullet
     for(var i = 0; i < PBULMAX; i++){
-        if(pbullet[i] != -1.0){
+        if(pbullet[i].x != -1.0){
             ctx.save();
             ctx.translate(pbullet[i].x, pbullet[i].y);
             ctx.rotate(pbullet[i].r);
