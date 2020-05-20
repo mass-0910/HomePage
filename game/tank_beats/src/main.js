@@ -883,10 +883,10 @@ function playerBullet(){
             if(map[now_mapnumber].elm[i][j] == 1){
                 for(var bul_i = 0; bul_i < PBULMAX; bul_i++){
                     if(pbullet[bul_i].x > i * 64 && pbullet[bul_i].x > (i+1) * 64 && pbullet[bul_i].y > j * 64 && pbullet[bul_i].y > (j+1) * 64){
-                        pbullet[i].x = -1.0;
-                        pbullet[i].y = -1.0;
-                        pbullet[i].xv = 0.0;
-                        pbullet[i].yv = 0.0;
+                        pbullet[bul_i].x = -1.0;
+                        pbullet[bul_i].y = -1.0;
+                        pbullet[bul_i].xv = 0.0;
+                        pbullet[bul_i].yv = 0.0;
                         player.bulnum--;
                     }
                 }
