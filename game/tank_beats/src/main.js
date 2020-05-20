@@ -141,7 +141,8 @@ function init(){
                ANIMEFRAME * 4,
                smoke_timer: 0,
                firepage: 0,
-               bulnum: 0
+               bulnum: 0,
+               shotable: false
              };
     for(var i = 0; i < PBULMAX; i++){
         pbullet[i] = { x: -1.0, y: -1.0, xv: 0.0, yv: 0.0, r: 0.0 };
@@ -862,6 +863,40 @@ function movePlayerGunTower(){
     }
 }
 
+function playerBullet(){
+    for(var i = 0; i < PBULMAX; i++){
+        pbullet[i].x += pbullet[i].xv;
+        pbullet[i].y += pbullet[i].yv;
+
+        if(pbullet[i].x < 0 || pbullet[i].x > 640 || pbullet[i].y < 0 || pbullet[i].y > 640){
+            pbullet[i].x = -1.0;
+            pbullet[i].y = -1.0;
+            pbullet[i].xv = 0.0;
+            pbullet[i].yv = 0.0;
+            player.bulnum--;
+        }
+    }
+
+    for(var j = 0; j < 10; j++){
+        for(var i = 0; i < 10; i++){
+            if(map[now_mapnumber].elm[i][j] == 1){
+                for(var bul_i = 0; bul_i < PBULMAX; bul_i++){
+                    if(pbullet[bul_i].x > i * 64 && pbullet[bul_i].x > (i+1) * 64 && pbullet[bul_i].y > j * 64 && pbullet[bul_i].y > (j+1) * 64){
+                        pbullet[i].x = -1.0;
+                        pbullet[i].y = -1.0;
+                        pbullet[i].xv = 0.0;
+                        pbullet[i].yv = 0.0;
+                        player.bulnum--;
+                    }
+                }
+            }
+        }
+    }
+
+    if(loading != LOADINGTIME) loading++;
+    if(loading == LOADINGTIME) player.shotable = true;
+}
+
 Asset.loadAssets = function(onComplete){
 
     var total = Asset.assets.length;
@@ -908,6 +943,24 @@ function onClick(){
                         in_credit = true;
                 }
             }
+        }
+    }
+
+    if(in_game){
+        if(player.shotable){
+            for(var i = 0; i < PBULMAX; i++){
+                if(pbullet[i].x != -1.0){
+                    pbullet[i].r = player.tr;
+                    pbullet[i].x = player.x + Math.cos(player.tr + Math.PI / 2.0) * 30.0;
+                    pbullet[i].y = player.y + Math.sin(player.tr + Math.PI / 2.0) * 30.0;
+                    pbullet[i].xv = Math.cos(player.tr + Math.PI / 2.0) * PBULV;
+                    pbullet[i].yv = Math.sin(player.tr + Math.PI / 2.0) * PBULV;
+                    player.bulnum++;
+                    break;
+                }
+            }
+            loading = 0;
+            player.shotable = false;
         }
     }
 };
