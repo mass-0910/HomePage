@@ -369,7 +369,7 @@ function drawBullet(){
             if(enemy[j].bullet[i].x != -1.0){
                 ctx.save();
                 ctx.translate(enemy[j].bullet[i].x, enemy[j].bullet[i].y);
-                ctx.rotate(enemy[j].bullet[i].r - Math.PI / 4.0);
+                ctx.rotate(enemy[j].bullet[i].r - Math.PI / 2.0);
                 ctx.drawImage(Asset.images['bullet'], -(Asset.images['bullet'].width / 2), -(Asset.images['bullet'].height / 2));
                 ctx.restore();
             }
