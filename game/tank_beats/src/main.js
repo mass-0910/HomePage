@@ -727,6 +727,7 @@ function moveEnemy(){
                         if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
                         if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
                         direction = tmparray.indexOf(Math.max(...tmparray));//tmparray.reduce((a, b) => a > b ? a : b);
+                        if(tmparray.every((e) => e == tmparray[0])) direction = -1;
                         switch(direction){
                             case -1: break;
                             case 0 : enemy[i].yv += -ENEMYV ; break;
@@ -755,6 +756,7 @@ function moveEnemy(){
                         if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
                         if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
                         direction = tmparray.indexOf(Math.min(...tmparray));
+                        if(tmparray.every((e) => e == tmparray[0])) direction = -1;
                         switch(direction){
                             case -1: break;
                             case 0 : enemy[i].yv += -ENEMYV ; break;
@@ -783,6 +785,7 @@ function moveEnemy(){
                         if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
                         if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
                         direction = tmparray.indexOf(Math.min(...tmparray));//tmparray.reduce((a, b) => a < b ? a : b);
+                        if(tmparray.every((e) => e == tmparray[0])) direction = -1;
                         switch(direction){
                             case -1: break;
                             case 0 : enemy[i].yv += -ENEMYV ; break;
@@ -820,6 +823,7 @@ function moveEnemy(){
                             if(enemy[i].mapX + 1 <= 9 && enemy[i].mapY + 1 <= 9)  tmparray[6] = dmap[enemy[i].mapX + 1][ enemy[i].mapY + 1];//右下
                             if(enemy[i].mapX - 1 >= 0 && enemy[i].mapY + 1 <= 9)  tmparray[7] = dmap[enemy[i].mapX - 1][ enemy[i].mapY + 1];//左下
                             direction = tmparray.indexOf(Math.max(...tmparray));
+                            if(tmparray.every((e) => e == tmparray[0])) direction = -1;
                             switch(direction){
                                 case -1: break;
                                 case 0 : enemy[i].yv += -ENEMYV ; break;
