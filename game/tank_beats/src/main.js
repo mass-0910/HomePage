@@ -44,6 +44,7 @@ var in_title;
 var in_game;
 var in_credit;
 var in_howtoplay;
+var config_time;
 
 map = [];
 var now_mapnumber;
@@ -197,6 +198,7 @@ function init(){
     in_game = false;
     in_credit = false;
     in_howtoplay = false;
+    config_time = 0;
 
     tmpHP = player.HP;
     damageEffect = 0;
@@ -257,6 +259,10 @@ function update(timestamp){
         }
     }
 
+    if(in_howtoplay || in_credit){
+        config_time++;
+    }
+
     requestAnimationFrame(update);
 };
 
@@ -306,11 +312,21 @@ function draw(){
         }
     }
 
-    if(in_howtoplay){
-        ctx.drawImage(Asset.images['title'], 0, 0);
-        ctx.fillText('WASDkey : moving', 100, 200 + 32);
-        ctx.fillText('mouse : direction of Guntower', 100, 232 + 32);
-        ctx.fillText('click : shot', 100, 264 + 32);
+    if(in_howtoplay || in_credit){
+        if(in_howtoplay){
+            ctx.drawImage(Asset.images['title'], 0, 0);
+            ctx.fillText('WASDkey : moving', 100, 200 + 32);
+            ctx.fillText('mouse : direction of Guntower', 100, 232 + 32);
+            ctx.fillText('click : shot', 100, 264 + 32);
+        }else if(in_credit){
+            ctx.drawImage(Asset.images['title'], 0, 0);
+            ctx.fillText('Main program : Shakeo', 100, 200 + 32);
+            ctx.fillText('Graphics : Shakeo & Sasimi', 100, 232 + 32);
+            ctx.fillText('Special thanks : Sasimi', 100, 264 + 32);
+        }
+        if(config_time > 100){
+            ctx.fillText('Click to back to the main menu.', 200, 400 + 32);
+        }
     }
 
     //draw mouse cursor
@@ -1159,6 +1175,15 @@ function onClick(){
 
         if(gameovertime > 100){
             init();
+        }
+    }
+
+    if(in_howtoplay || in_credit){
+        if(config_time > 100){
+            in_howtoplay = false;
+            in_credit = false;
+            in_title = true;
+            config_time = 0;
         }
     }
 }
