@@ -404,7 +404,7 @@ function drawExplosion(){
     //draw player's explosion
     if(player.damage_timer != ANIMEFRAME * 4){
         var page = Math.floor(player.damage_timer / ANIMEFRAME);
-        ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, player.x - Asset.images['hitimg'].width / 2, player.y - Asset.images['hitimg'].height / 2);
+        ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, player.x - 16, player.y - 16, 32, 32);
         player.damage_timer++;
     }
 
@@ -412,7 +412,7 @@ function drawExplosion(){
     for(var i = 0; i < enemynum; i++){
         if(enemy[i].damage_timer != ANIMEFRAME * 4){
             var page = Math.floor(enemy[i].damage_timer / ANIMEFRAME);
-            ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, enemy[i].x - Asset.images['hitimg'].width / 2, enemy[i].y - Asset.images['hitimg'].height / 2);
+            ctx.drawImage(Asset.images['hitimg'], page * 32, 0, 32, 32, enemy[i].x - 16, enemy[i].y - 16, 32, 32);
             enemy[i].damage_timer++;
         }
     }
