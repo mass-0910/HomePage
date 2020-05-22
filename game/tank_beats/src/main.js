@@ -114,6 +114,12 @@ function init(){
         if(evt.key == 's') key['s'] = false;
         if(evt.key == 'd') key['d'] = false;
     }, false);
+    canvas.addEventListener('blur', function(evt){
+        key['w'] = false;
+        key['a'] = false;
+        key['s'] = false;
+        key['d'] = false;
+    }), false;
 
     //map load
     loadMap();
