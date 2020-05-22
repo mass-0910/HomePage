@@ -1072,7 +1072,7 @@ function hitBullet(){
                     pbullet[j].y = -1.0;
                     pbullet[j].xv = 0.0;
                     pbullet[j].yv = 0.0;
-                    pbulnum--;
+                    player.bulnum--;
                 }
             }
         }
