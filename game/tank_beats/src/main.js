@@ -149,9 +149,6 @@ function init(){
     in_howtoplay = false;
     config_time = 0;
 
-    tmpHP = player.HP;
-    damageEffect = 0;
-
     clear = false;
     gameovertime = 0;
     cleartime = 0;
@@ -215,6 +212,9 @@ function stage_init(){
             enemy[i].smoke[j] = {x: 0, y: 0, xv: 0, yv: 0};
         }
     }
+    
+    tmpHP = player.HP;
+    damageEffect = 0;
 }
 
 function update(timestamp){
