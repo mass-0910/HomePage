@@ -948,7 +948,7 @@ function enemyBullet(){
     for(var i = 0; i < enemynum; i++){
         var difarg;
         difarg = Math.atan2(enemy[i].shotpoint.y - enemy[i].y, enemy[i].shotpoint.x - enemy[i].x) - enemy[i].tr;
-        if(difarg % Math.PI > -ENEMYTRV && difarg % Math.PI < ENEMYTRV && enem[i].noshot == false && enemy[i].loading == LOADINGTIME && Math.floor(Math.random() * 30) == 0 && enemy[i].HP != 0){
+        if(difarg % Math.PI > -ENEMYTRV && difarg % Math.PI < ENEMYTRV && enemy[i].noshot == false && enemy[i].loading == LOADINGTIME && Math.floor(Math.random() * 30) == 0 && enemy[i].HP != 0){
             for(var j = 0; j < EBULMAX; j++){
                 if(enemy[i].bullet[j].x == -1.0){
                     enemy[i].bullet[j].r = enemy[i].tr;
