@@ -790,6 +790,8 @@ function moveEnemy(){
 
     //enemy's body angle
     for(var i = 0; i < enemynum; i++){
+        var tmpr;
+        tmpr = enemy[i].r;
         if(enemy[i].xv > 0.0 && enemy[i].yv == 0.0){
             if(enemy[i].r > -Math.PI/2.0 && enemy[i].r < Math.PI/2.0){
                 enemy[i].r -= 0.05;
@@ -846,6 +848,7 @@ function moveEnemy(){
                 enemy[i].r -= 0.05;
             }
         }
+        enemy[i].tr += enemy[i].r - tmpr;
         if(enemy[i].r <= -Math.PI) enemy[i].r += 2.0 * Math.PI;
         if(enemy[i].r >=  Math.PI) enemy[i].r -= 2.0 * Math.PI;
     }
