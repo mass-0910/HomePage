@@ -1107,6 +1107,7 @@ function hitBullet(){
             if(enemy[i].HP != 0 && enemy[i].bulnum != 0){
                 for(var j = 0; j < EBULMAX; j++){
                     if(enemy[i].bullet[j].x != -1.0 && distance(player.x, player.y, enemy[i].bullet[j].x, enemy[i].bullet[j].y) < 20){
+                        console.log('hit');
                         player.HP--;
                         player.damage_timer = 0;
                         enemy[i].bullet[j].x = -1.0;
