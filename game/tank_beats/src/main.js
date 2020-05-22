@@ -332,7 +332,7 @@ function draw(){
         ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         ctx.font = '60px sans-serif';
         ctx.fillStyle = 'rgba(255, 255, 255)';
-        ctx.fillText('STAGE ' + (now_mapnumber + 1), 150, 170 + 32);
+        ctx.fillText('STAGE ' + (now_mapnumber + 1), 180, 170 + 32);
         ctx.fillText(map[now_mapnumber].title, 180, 230 + 32);
     }
 
