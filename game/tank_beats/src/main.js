@@ -463,8 +463,8 @@ function drawSmoke(){
                 player.smoke[i].yv = 0.0;
             }
             if(Math.floor(player.smoke_timer / 3) == i){
-                player.smoke[i].xv = Math.cos(-Math.PI / 2,0 + Math.random() - 0.5);
-                player.smoke[i].yv = Math.sin(-Math.PI / 2,0 + Math.random() - 0.5);
+                player.smoke[i].xv = Math.cos(-Math.PI / 2.0 + Math.random() - 0.5);
+                player.smoke[i].yv = Math.sin(-Math.PI / 2.0 + Math.random() - 0.5);
             }
             player.smoke[i].x += player.smoke[i].xv;
             player.smoke[i].y += player.smoke[i].yv;
@@ -488,8 +488,8 @@ function drawSmoke(){
                     enemy[j].smoke[i].yv = 0.0;
                 }
                 if(Math.floor(enemy[j].smoke_timer / 3) == i){
-                    enemy[j].smoke[i].xv = Math.cos(-Math.PI / 2,0 + Math.random() - 0.5);
-                    enemy[j].smoke[i].yv = Math.sin(-Math.PI / 2,0 + Math.random() - 0.5);
+                    enemy[j].smoke[i].xv = Math.cos(-Math.PI / 2.0 + Math.random() - 0.5);
+                    enemy[j].smoke[i].yv = Math.sin(-Math.PI / 2.0 + Math.random() - 0.5);
                 }
                 enemy[j].smoke[i].x += enemy[j].smoke[i].xv;
                 enemy[j].smoke[i].y += enemy[j].smoke[i].yv;
