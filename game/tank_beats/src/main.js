@@ -949,6 +949,7 @@ function onClick(){
 
     if(in_game){
         if(player.shotable){
+            console.log("shotable");
             for(var i = 0; i < PBULMAX; i++){
                 if(pbullet[i].x == -1.0){
                     pbullet[i].r = player.tr;
