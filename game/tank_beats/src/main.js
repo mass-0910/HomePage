@@ -238,7 +238,6 @@ function update(timestamp){
             enemy[i].mapX = Math.floor(enemy[i].x / 64);
             enemy[i].mapY = Math.floor(enemy[i].y / 64);
         }
-        console.log("shotable : " + player.shotable);
         
         make_dmap();
         moveEnemy();
@@ -1173,7 +1172,7 @@ function onClick(){
                 switch(i){
                     case 0:
                         in_title = false;
-                        in_game = true;
+                        in_start = true;
                         break;
                     case 1:
                         in_title = false;
@@ -1189,7 +1188,6 @@ function onClick(){
 
     if(in_game){
         if(player.shotable){
-            console.log("shotable");
             for(var i = 0; i < PBULMAX; i++){
                 if(pbullet[i].x == -1.0){
                     pbullet[i].r = player.tr;
