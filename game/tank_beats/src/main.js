@@ -269,6 +269,7 @@ function update(timestamp){
         config_time++;
         if(config_time > 200){
             ctx.font = '32px sans-serif';
+            config_time = 0;
             in_start = false;
             in_game = true;
         }
