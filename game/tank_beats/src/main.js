@@ -462,7 +462,7 @@ function drawSmoke(){
                 player.smoke[i].xv = 0.0;
                 player.smoke[i].yv = 0.0;
             }
-            if(player.smoke_timer % 3 == i){
+            if(Math.floor(player.smoke_timer / 3) == i){
                 player.smoke[i].xv = Math.cos(-Math.PI / 2,0 + Math.random() - 0.5);
                 player.smoke[i].yv = Math.sin(-Math.PI / 2,0 + Math.random() - 0.5);
             }
@@ -487,7 +487,7 @@ function drawSmoke(){
                     enemy[j].smoke[i].xv = 0.0;
                     enemy[j].smoke[i].yv = 0.0;
                 }
-                if(enemy[j].smoke_timer % 3 == i){
+                if(Math.floor(enemy[j].smoke_timer / 3) == i){
                     enemy[j].smoke[i].xv = Math.cos(-Math.PI / 2,0 + Math.random() - 0.5);
                     enemy[j].smoke[i].yv = Math.sin(-Math.PI / 2,0 + Math.random() - 0.5);
                 }
