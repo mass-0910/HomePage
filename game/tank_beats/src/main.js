@@ -931,7 +931,7 @@ function moveEnemyGunTower(){
 
     //gun tower round
     for(var i = 0; i < enemynum; i++){
-        if(enemy[i].HP != 0; enemy[i].noshot == 0){
+        if(enemy[i].HP != 0 && enemy[i].noshot == false){
             if((enemy[i].shotpoint.x - enemy[i].x) * Math.sin(enemy[i].TR) - (enemy[i].shotpoint.y - enemy[i].y) * Math.cos(enemy[i].TR) < 0){
                 enemy[i].TR += ENEMYTRV;
             }else{
