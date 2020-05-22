@@ -218,6 +218,8 @@ function update(timestamp){
         enemy[i].mapX = Math.floor(enemy[i].x / 64);
         enemy[i].mapY = Math.floor(enemy[i].y / 64);
     }
+    console.log("shotable : " + player.shotable);
+    console.clear();
     
     make_dmap();
     moveEnemy();
