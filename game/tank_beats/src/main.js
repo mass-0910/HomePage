@@ -1,4 +1,5 @@
 window.addEventListener('load', init);
+var first_init = true;
 
 const GAMETITLE = "TANK BEATS";
 const VERSION = "1.0";
@@ -79,47 +80,49 @@ Asset.images = [];
 function init(){
 
     // canvas initialize
-    canvas = document.getElementById("maincanvas");
-    ctx = canvas.getContext('2d');
-    canvas.width = SCREEN_WIDTH;
-    canvas.height = SCREEN_HEIGHT;
-    ctx.font = '32px sans-serif';
+    if(first_init){
+        canvas = document.getElementById("maincanvas");
+        ctx = canvas.getContext('2d');
+        canvas.width = SCREEN_WIDTH;
+        canvas.height = SCREEN_HEIGHT;
+        ctx.font = '32px sans-serif';
 
-    // loading assets
-    Asset.loadAssets(function(){
-        requestAnimationFrame(update);
-    });
+        // loading assets
+        Asset.loadAssets(function(){
+            requestAnimationFrame(update);
+        });
 
-    // set mouse listener
-    canvas.addEventListener('mousemove', function(evt){
-        var canvasRect = canvas.getBoundingClientRect();
-        mouse = {
-            x: evt.clientX - canvasRect.left,
-            y: evt.clientY - canvasRect.top
-        } 
-    }, false);
-    canvas.addEventListener('click', onClick, false);
-
-    // set key listener
-    canvas.setAttribute('tabindex', 0);
-    canvas.addEventListener('keydown', function(evt){
-        if(evt.key == 'w') key['w'] = true;
-        if(evt.key == 'a') key['a'] = true;
-        if(evt.key == 's') key['s'] = true;
-        if(evt.key == 'd') key['d'] = true;
-    }, false);
-    canvas.addEventListener('keyup', function(evt){
-        if(evt.key == 'w') key['w'] = false;
-        if(evt.key == 'a') key['a'] = false;
-        if(evt.key == 's') key['s'] = false;
-        if(evt.key == 'd') key['d'] = false;
-    }, false);
-    canvas.addEventListener('blur', function(evt){
-        key['w'] = false;
-        key['a'] = false;
-        key['s'] = false;
-        key['d'] = false;
-    }), false;
+        // set mouse listener
+        canvas.addEventListener('mousemove', function(evt){
+            var canvasRect = canvas.getBoundingClientRect();
+            mouse = {
+                x: evt.clientX - canvasRect.left,
+                y: evt.clientY - canvasRect.top
+            } 
+        }, false);
+        canvas.addEventListener('click', onClick, false);
+    
+        // set key listener
+        canvas.setAttribute('tabindex', 0);
+        canvas.addEventListener('keydown', function(evt){
+            if(evt.key == 'w') key['w'] = true;
+            if(evt.key == 'a') key['a'] = true;
+            if(evt.key == 's') key['s'] = true;
+            if(evt.key == 'd') key['d'] = true;
+        }, false);
+        canvas.addEventListener('keyup', function(evt){
+            if(evt.key == 'w') key['w'] = false;
+            if(evt.key == 'a') key['a'] = false;
+            if(evt.key == 's') key['s'] = false;
+            if(evt.key == 'd') key['d'] = false;
+        }, false);
+        canvas.addEventListener('blur', function(evt){
+            key['w'] = false;
+            key['a'] = false;
+            key['s'] = false;
+            key['d'] = false;
+        }), false;
+    }
 
     //map load
     loadMap();
@@ -202,6 +205,7 @@ function init(){
     gameovertime = 0;
     cleartime = 0;
 
+    first_init = false;
     console.log("init end");
 };
 
