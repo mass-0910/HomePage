@@ -41,6 +41,7 @@ var enemynum = 0;
 var gameover = false;
 
 var in_title;
+var in_start;
 var in_game;
 var in_credit;
 var in_howtoplay;
@@ -195,6 +196,7 @@ function init(){
     }
 
     in_title = true;
+    in_start = false;
     in_game = false;
     in_credit = false;
     in_howtoplay = false;
@@ -259,6 +261,15 @@ function update(timestamp){
         }
     }
 
+    if(in_start){
+        config_time++;
+        if(config_time > 200){
+            ctx.font = '32px sans-serif';
+            in_start = false;
+            in_game = true;
+        }
+    }
+
     if(in_howtoplay || in_credit){
         config_time++;
     }
@@ -310,6 +321,14 @@ function draw(){
                 ctx.fillText('Click to go to the next stage.', 200, 400 + 32);
             }
         }
+    }
+
+    if(in_start){
+        ctx.fillStyle = 'rgba(0, 0, 0)';
+        ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        ctx.font = '60px sans-serif';
+        ctx.fillText('STAGE ' + (now_mapnumber + 1), 150, 170 + 32);
+        ctx.fillText(map[now_mapnumber].title, 180, 230 + 32);
     }
 
     if(in_howtoplay || in_credit){
@@ -1177,6 +1196,15 @@ function onClick(){
         if(gameovertime > 100){
             init();
         }
+
+        if(cleartime > 100){
+            now_mapnumber++;
+            in_game = false;
+            in_start = true;
+            if(now_mapnumber == map.length){
+                init();
+            }
+        }
     }
 
     if(in_howtoplay || in_credit){
@@ -1207,12 +1235,14 @@ function loadMap(){
     var mapname;
     var mapfile;
     var mapnamefile = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapdata.txt");
+    var maptitlefile = readTextFile("https://www.mass-site.work/game/tank_beats/data/mapfile/mapname.txt");
     for(var i = 0;; i++){
         mapname = mapnamefile.split('\n')[i];
         if(mapname != 'TEXTend'){
             map[i] = {};
             map[i].name = mapname;
             map[i].elm = [];
+            map[i].title = maptitlefile.split('\n')[i];
             for(var elm_i = 0; elm_i < 10; elm_i++){
                 map[i].elm[elm_i] = new Array(10);
             }
