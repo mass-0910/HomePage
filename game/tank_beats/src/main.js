@@ -1004,7 +1004,7 @@ function moveEnemyGunTower(){
             var bitx, bity;
             bitx = (enemy[i].x + Math.cos(Math.atan2(player.y - enemy[i].y, player.x - enemy[i].x)) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
             bity = (enemy[i].y + Math.sin(Math.atan2(player.y - enemy[i].y, player.x - enemy[i].x)) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
-            ctx.fillRect(bitx, bity, 2, 2);
+            //ctx.fillRect(bitx, bity, 2, 2);
             if(map[now_mapnumber].elm[Math.floor(bitx/64)][ Math.floor(bity/64)] == 1){
                 enemy[i].noshot = true;//見えていない
                 break;
