@@ -227,6 +227,8 @@ function update(timestamp){
     
         movePlayerGunTower();
         playerBullet();
+        moveEnemyGunTower();
+        enemyBullet();
     }
 
     requestAnimationFrame(update);
@@ -900,6 +902,118 @@ function playerBullet(){
 
     if(loading != LOADINGTIME) loading++;
     if(loading == LOADINGTIME) player.shotable = true;
+
+    if(player.bulnum == PBULMAX) player.shotable = false;
+}
+
+function moveEnemyGunTower(){
+
+    //shotpoint
+    for(var i = 0; i < enemynum; i++){
+        enemy[i].shotpoint.x = player.x;
+        enemy[i].shotpoint.y = player.y;
+    }
+
+    //can shot to player
+    for(var i = 0; i < enemynum; i++){
+        for(var k = 0; k < 50; k++){
+            var bitx, bity;
+            bitx = (enemy[i].x + Math.cos(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+            bity = (enemy[i].y + Math.sin(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+            if(map[now_mapnumber].elm[Math.floor(bitx/64)][ Math.floor(bity/64)] == 1){
+                enemy[i].noshot = true;//見えていない
+                break;
+            }else{
+                enemy[i].noshot = false;//見えている
+            }
+        }
+    }
+
+    //gun tower round
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].HP != 0; enemy[i].noshot == 0){
+            if((enemy[i].shotpoint.x - enemy[i].x) * Math.sin(enemy[i].TR) - (enemy[i].shotpoint.y - enemy[i].y) * Math.cos(enemy[i].TR) < 0){
+                enemy[i].TR += ENEMYTRV;
+            }else{
+                enemy[i].TR -= ENEMYTRV;
+            }
+        }
+    }
+}
+
+function enemyBullet(){
+
+    //shot
+    for(var i = 0; i < enemynum; i++){
+        var difarg;
+        difarg = Math.atan2(enemy[i].shotpoint.y - enemy[i].y, enemy[i].shotpoint.x - enemy[i].x) - enemy[i].tr;
+        if(difarg % Math.PI > -ENEMYTRV && difarg % Math.PI < ENEMYTRV && enem[i].noshot == false && enemy[i].loading == LOADINGTIME && Math.floor(Math.random() * 30) == 0 && enemy[i].HP != 0){
+            for(var j = 0; j < EBULMAX; j++){
+                if(enemy[i].bullet[j].x == -1.0){
+                    enemy[i].bullet[j].r = enemy[i].tr;
+                    enemy[i].bullet[j].x = enemy[i].x + Math.cos(enemy[i].tr) * 30.0;
+                    enemy[i].bullet[j].y = enemy[i].y + Math.sin(enemy[i].tr) * 30.0;
+                    enemy[i].bullet[j].xv = Math.cos(enemy[i].tr) * EBULV;
+                    enemy[i].bullet[j].yv = Math.sin(enemy[i].tr) * EBULV;
+                    enemy[i].bulnum++;
+                    break;
+                }
+            }
+            enemy[i].loading = 0;
+        }
+        if(enemy[i].loading != LOADINGTIME) enemy[i].loading++;
+    }
+
+    //init noshot
+    for(var i = 0; i < enemynum; i++){
+        enemy[i].noshot = false;
+    }
+
+    //add speed
+    for(var i = 0; i < enemynum; i++){
+        for(var j = 0; j < EBULMAX; j++){
+            if(enemy[i].bullet[j].x != -1.0){
+                enemy[i].bullet[j].x += enemy[i].bullet[j].xv;
+                enemy[i].bullet[j].y += enemy[i].bullet[j].yv;
+            }
+        }
+    }
+
+    //collide to edge of canvas
+    for(var i = 0; i < enemynum; i++){
+        for(var j = 0; j < EBULMAX; j++){
+            if(enemy[i].bullet[j].x != -1.0){
+                if(enemy[i].bullet[j].x < 0 || enemy[i].bullet[j].x > 640 || enemy[i].bullet[j].y < 0 || enemy[i].bullet[j].y > 640){
+                    enemy[i].bullet[j].x = -1.0;
+                    enemy[i].bullet[j].y = -1.0;
+                    enemy[i].bullet[j].xv = 0.0;
+                    enemy[i].bullet[j].yv = 0.0;
+                    enemy[i].bulnum--;
+                }
+            }
+        }
+    }
+
+    //collide to wall
+    for(var l = 0; l < 10; l++){
+        for(var k = 0; k < 10; k++){
+            if(map[now_mapnumber].elm[k][l] == 1){
+                for(var i = 0; i < enemynum; i++){
+                    for(var j = 0; j < EBULMAX; j++){
+                        if(enemy[i].bullet[j].x != -1.0){
+                            if(enemy[i].bullet[j].x > k * 64 && enemy[i].bullet[j].x < (k+1) * 64 && enemy[i].bullet[j].y > l * 64 && enemy[i].bullet[j].y < (l+1) * 64){
+                                enemy[i].bullet[j].x = -1.0;
+                                enemy[i].bullet[j].y = -1.0;
+                                enemy[i].bullet[j].xv = 0.0;
+                                enemy[i].bullet[j].yv = 0.0;
+                                enemy[i].bulnum--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 Asset.loadAssets = function(onComplete){
