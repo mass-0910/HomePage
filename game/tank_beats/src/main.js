@@ -555,6 +555,7 @@ function drawSmoke(){
 
 function drawParameter(){
     ctx.fillText('HP', 670, 20 + 32);
+    ctx.fillText(player.HP, 670, 52 + 32);
     if(loading != LOADINGTIME){
         ctx.fillText('Loading', 650, 140 + 32);
     }
