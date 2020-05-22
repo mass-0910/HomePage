@@ -306,6 +306,13 @@ function draw(){
         }
     }
 
+    if(in_howtoplay){
+        ctx.drawImage(Asset.images['title'], 0, 0);
+        ctx.fillText('WASDkey : moving', 100, 100 + 32);
+        ctx.fillText('mouse : direction of Guntower', 100, 132 + 32);
+        ctx.fillText('click : shot', 100, 164 + 32);
+    }
+
     //draw mouse cursor
     ctx.drawImage(Asset.images['cursor'], mouse.x - 16, mouse.y - 16);
 };
