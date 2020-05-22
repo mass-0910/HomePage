@@ -313,6 +313,7 @@ function draw(){
     }
 
     if(in_howtoplay || in_credit){
+        ctx.fillStyle = 'rgba(255, 255, 255)';
         if(in_howtoplay){
             ctx.drawImage(Asset.images['title'], 0, 0);
             ctx.fillText('WASDkey : moving', 100, 200 + 32);
