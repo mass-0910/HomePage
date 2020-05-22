@@ -211,20 +211,23 @@ function update(timestamp){
     //collision();
 
     draw();
-    movePlayer();
 
-    //make enemymap
-    for(var i = 0; i < enemynum; i++){
-        enemy[i].mapX = Math.floor(enemy[i].x / 64);
-        enemy[i].mapY = Math.floor(enemy[i].y / 64);
-    }
-    console.log("shotable : " + player.shotable);
+    if(in_game){
+        movePlayer();
     
-    make_dmap();
-    moveEnemy();
-
-    movePlayerGunTower();
-    playerBullet();
+        //make enemymap
+        for(var i = 0; i < enemynum; i++){
+            enemy[i].mapX = Math.floor(enemy[i].x / 64);
+            enemy[i].mapY = Math.floor(enemy[i].y / 64);
+        }
+        console.log("shotable : " + player.shotable);
+        
+        make_dmap();
+        moveEnemy();
+    
+        movePlayerGunTower();
+        playerBullet();
+    }
 
     requestAnimationFrame(update);
 };
