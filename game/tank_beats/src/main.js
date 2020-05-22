@@ -571,7 +571,8 @@ function drawDamageEffect(){
     ctx.globalAlpha = damageEffect / 255.0;
     ctx.drawImage(Asset.images['damage'], 0, 0);
     ctx.globalAlpha = 1.0;
-    if(damageEffect != 0) damageEffect -= 2;
+    if(damageEffect > 0) damageEffect -= 2;
+    if(damageEffect < 0) damageEffect = 0;
     tmpHP = player.HP;
 }
 
