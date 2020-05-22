@@ -308,9 +308,9 @@ function draw(){
 
     if(in_howtoplay){
         ctx.drawImage(Asset.images['title'], 0, 0);
-        ctx.fillText('WASDkey : moving', 100, 100 + 32);
-        ctx.fillText('mouse : direction of Guntower', 100, 132 + 32);
-        ctx.fillText('click : shot', 100, 164 + 32);
+        ctx.fillText('WASDkey : moving', 100, 200 + 32);
+        ctx.fillText('mouse : direction of Guntower', 100, 232 + 32);
+        ctx.fillText('click : shot', 100, 264 + 32);
     }
 
     //draw mouse cursor
