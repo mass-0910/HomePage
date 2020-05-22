@@ -722,8 +722,8 @@ function moveEnemy(){
                         //見えているかの判定(下からのコピー)
                         for(var k = 0; k < 50; k++){
                             var bitx, bity;
-                            bitx = (enemy[i].x + Math.cos(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
-                            bity = (enemy[i].y + Math.sin(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+                            bitx = (enemy[i].x + Math.cos(Math.atan2(player.y - enemy[i].y, player.x - enemy[i].x)) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+                            bity = (enemy[i].y + Math.sin(Math.atan2(player.y - enemy[i].y, player.x - enemy[i].x)) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
                             if(map[now_mapnumber].elm[Math.floor(bitx/64)][ Math.floor(bity/64)] == 1){
                                 enemy[i].noshot = true;//見えていない
                                 break;
@@ -918,8 +918,8 @@ function moveEnemyGunTower(){
     for(var i = 0; i < enemynum; i++){
         for(var k = 0; k < 50; k++){
             var bitx, bity;
-            bitx = (enemy[i].x + Math.cos(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
-            bity = (enemy[i].y + Math.sin(Math.atan((player.y - enemy[i].y) / (player.x - enemy[i].x))) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+            bitx = (enemy[i].x + Math.cos(Math.atan2(player.y - enemy[i].y, player.x - enemy[i].x)) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
+            bity = (enemy[i].y + Math.sin(Math.atan2(player.y - enemy[i].y, player.x - enemy[i].x)) * (distance(enemy[i].x, enemy[i].y, player.x, player.y)/50.0) * (k + 1));
             console.log("bitx : " + bitx + " bity : " + bity);
             if(map[now_mapnumber].elm[Math.floor(bitx/64)][ Math.floor(bity/64)] == 1){
                 enemy[i].noshot = true;//見えていない
