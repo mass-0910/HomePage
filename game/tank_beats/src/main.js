@@ -235,6 +235,22 @@ function update(timestamp){
         playerBullet();
         moveEnemyGunTower();
         enemyBullet();
+        hitBullet();
+
+        if(player.HP <= 0){
+            gameovertime++;
+        }
+
+        clear = true;
+        for(var i = 0; i < enemynum; i++){
+            if(enemy[i].HP != 0){
+                clear = false;
+                break;
+            }
+        }
+        if(clear){
+            cleartime++;
+        }
     }
 
     requestAnimationFrame(update);
@@ -1026,6 +1042,43 @@ function enemyBullet(){
     }
 }
 
+function hitBullet(){
+
+    if(player.HP != 0){
+        for(var i = 0; i < enemynum; i++){
+            if(enemy[i].HP != 0 && enemy[i].bulnum != 0){
+                for(var j = 0; j < EBULMAX; j++){
+                    if(enemy[i].bullet[j].x != -1.0 && distance(player.x, player.y, enemy[i].bullet[j].x, enemy[i].bullet[j].y) < 20){
+                        player.HP--;
+                        player.damage_timer = 0;
+                        enemy[i].bullet[j].x = -1.0;
+                        enemy[i].bullet[j].y = -1.0;
+                        enemy[i].bullet[j].xv = 0.0;
+                        enemy[i].bullet[j].yv = 0.0;
+                        enemy[i].bulnum--;
+                    }
+                }
+            }
+        }
+    }
+
+    for(var i = 0; i < enemynum; i++){
+        if(enemy[i].HP != 0){
+            for(var j = 0; j < PBULMAX; j++){
+                if(pbullet[j].x != -1.0 && distance(enemy[i].x, enemy[i].y, pbullet[j].x, pbullet[j].y) < 20){
+                    enemy[i].HP--;
+                    enemy[i].damage_timer = 0;
+                    pbullet[j].x = -1.0;
+                    pbullet[j].y = -1.0;
+                    pbullet[j].xv = 0.0;
+                    pbullet[j].yv = 0.0;
+                    pbulnum--;
+                }
+            }
+        }
+    }
+}
+
 Asset.loadAssets = function(onComplete){
 
     var total = Asset.assets.length;
@@ -1092,65 +1145,9 @@ function onClick(){
             loading = 0;
             player.shotable = false;
         }
-    }
-};
 
-function collision(){
-    if(ball != null){
-
-        // hit to player bar
-        if(ball.y - BALL_RADIUS < player.y - 5 && ball.y + BALL_RADIUS > player.y - 5){
-            if(ball.x > player.x - 32 && ball.x < player.x + 32){
-                ball.xv = (ball.x - player.x) / 50;
-                ball.yv = -1.0 - Math.abs(player.v) / 7;
-                console.log("hit to bar");
-            }
-        }
-
-        // hit to block
-        block.forEach(function(a_block){
-            if(a_block.alive){
-                switch(isInTheBlock(a_block, ball)){
-                    case 'left':
-                        a_block.alive = false;
-                        ball.xv *= -1;
-                        break;
-                    case 'top':
-                        a_block.alive = false;
-                        ball.yv *= -1;
-                        break;
-                    case 'right':
-                        a_block.alive = false;
-                        ball.xv *= -1;
-                        break;
-                    case 'bottom':
-                        a_block.alive = false;
-                        ball.yv *= -1;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-        // hit to wall(edge of screen)
-        if(ball.x - BALL_RADIUS < 0){
-            ball.x = BALL_RADIUS;
-            ball.xv *= -1;
-            console.log("hit to wall");
-        }
-        if(ball.x + BALL_RADIUS > SCREEN_WIDTH){
-            ball.x = SCREEN_WIDTH - BALL_RADIUS;
-            ball.xv *= -1;
-            console.log("hit to wall");
-        }
-        if(ball.y - BALL_RADIUS < 0){
-            ball.y = BALL_RADIUS;
-            ball.yv *= -1;
-            console.log("hit to wall");
-        }
-        if(ball.y + BALL_RADIUS > SCREEN_HEIGHT){
-            gameover = true;
+        if(gameovertime > 100){
+            init();
         }
     }
 }
