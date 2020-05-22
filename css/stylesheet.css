@@ -232,3 +232,7 @@ article div.info time{
     line-height: 1.6em;
     font-size: 72%;
 }
+
+.btn{
+    cursor: pointer;
+}

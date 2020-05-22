@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="description" content="戦車ゲームです。PCのブラウザから遊べます。">
+        <meta name="keywords" contents="戦車,鮭男,ゲーム">
+        <meta name="twitter:title" content="戦車ゲーム【TANK BEATS】">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https://www.mass-site.work/game/img/20200523.png">
+        <meta name="twitter:image:alt" content="game screen">
+        <meta name="twitter:description" content="JavaScriptで戦車ゲーム作ってみました。PCのブラウザから遊べます。">
+        <meta name="twitter:url" content="https://www.mass-site.work/game/g20200523.html">
+        <meta name="twitter:site" content="@manjyu0910">
+        <meta name="twitter:domain" content="www.mass-site.work">
+        <meta property="og:title" content="戦車ゲーム【TANK BEATS】">
+        <meta property="og:url" content="https://www.mass-site.work/game/g20200523.html">
+        <meta property="og:site_name" content="鮭男のホームページ">
+        <meta property="og:image" content="https://www.mass-site.work/game/img/20200523.png">
+        <meta property="og:image:alt" content="game screen">
+        <meta property="og:description" content="JavaScriptで戦車ゲーム作ってみました。PCのブラウザから遊べます。">
+        <meta property="og:locale" content="ja_JP">
+        <title>TANK BEATS</title>
+        <link rel="stylesheet" href="../css/stylesheet.css">
+        <link rel="icon" href="../favicon.ico">
+    </head>
+    <body>
+        <!-- header -->
+        <script src="../common_js/headermaker.js"></script>
+        <script>header(1, 3)</script>
+        <hr>
+
+        <!-- game screen -->
+        <div class="blogbody">
+            <h1>戦車ゲーム【TANK BEATS】</h1>
+            <small>2020/05/23</small>
+            <hr>
+            <style>
+                .gamecanvas {
+                    cursor: none;
+                    width: 800px;
+                    margin: 0 auto;
+                }
+            </style>
+            <div class='gamecanvas'>
+                <canvas id="maincanvas"></canvas>
+            </div>
+            <script src="tank_beats/src/main.js"></script>
+    
+            <p>オーソドックスな箱庭戦車ゲームです。</p>
+            <h2>遊び方</h2>
+            <ul>
+                <li><strong>WASDキー</strong>で戦車の移動</li>
+                <li><strong>マウス</strong>で砲塔の向きを変える</li>
+                <li><strong>クリック</strong>で弾の発射</li>
+            </ul>
+            <p>とりあえずSTAGE6まで作ってあります。</p>
+            <p>このゲーム、元はHSPで作っていたのですが、練習としてJavaScriptに移植してみました。HSPのソースコードは<a href="https://github.com/mass-0910/TANK-BEATS">こちら</a>から見ることができます。</p>
+            <p>気が向いたらまた更新していきます。</p>
+        </div>
+
+        <div class="share">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+
+        <hr>
+        <h2>コメントを投稿</h2>
+        <form action="g20200523.html" method="post">
+            名前：<br />
+            <input type="text" name="name" size="30" value="" /><br />
+            コメント：<br />
+            <textarea name="comment" cols="30" rows="5"></textarea><br />
+            <br />
+            <input class="btn" type="submit" name='btn_submit' value="投稿する" />
+        </form>
+        <p>過去のコメント</p>
+        <?php
+            define( 'FILENAME', '/cgi-bin/g20200523_comment.txt');
+            $now_date = null;
+            $data = null;
+            date_default_timezone_set('Asia/Tokyo');
+            $now_date = date("Y-m-d H:i:s");
+
+            $split_data = null;
+            $message = array();
+            $message_array = array();
+            
+            if(!empty($_POST['btn_submit'])){
+
+                if(empty($_POST['name'])){
+                    $error_message[] = '名前を入力してください。';	
+                } else {
+                    $clean['view_name'] = htmlspecialchars( $_POST['name'], ENT_QUOTES);
+                    $clean['view_name'] = preg_replace( '/\\r\\n|\\n|\\r/', '', $clean['view_name']);
+            	}
+                if(empty($_POST['comment'])) {
+                    $error_message[] = 'コメントを入力してください。';
+                } else {
+                    $clean['message'] = htmlspecialchars( $_POST['comment'], ENT_QUOTES);
+                    $clean['message'] = preg_replace( '/\\r\\n|\\n|\\r/', '<br>', $clean['message']);
+            	}
+    
+                if(empty($error_message)){
+                    if($fp = fopen(FILENAME, "a")){
+                        $data = "'".$clean['view_name']."','".$clean['message']."','".$now_date."'\n";
+                        fputs($fp, $data);
+                        fclose($fp);
+                    }else{
+                        echo 'fileopen a failed';
+                    }
+                }
+            }
+
+            if($fp = fopen( FILENAME,'r')) {
+                while($data = fgets($fp)){
+                    //echo $data . "<br>";
+                    $split_data = preg_split( '/\'/', $data);
+                    $message = array(
+                        'view_name' => $split_data[1],
+                        'message' => $split_data[3],
+                        'post_date' => $split_data[5]
+                    );
+                    array_unshift( $message_array, $message);
+                }
+                fclose($fp);
+            }else{
+                echo '<p>まだコメントは投稿されていません。</p>';
+            }
+        ?>
+        <br>
+        <?php if( !empty($error_message) ): ?>
+            <ul class="error_message">
+                <?php foreach( $error_message as $value ): ?>
+                    <li><?php echo $value; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <?php if( !empty($message_array) ): ?>
+        <?php foreach( $message_array as $value ): ?>
+        <article>    
+            <div class="info">        
+                <h2><?php echo $value['view_name']; ?></h2>
+                <time><?php echo date('Y年m月d日 H:i', strtotime($value['post_date'])); ?></time>
+            </div>    
+            <p><?php echo $value['message']; ?></p>
+        </article>
+        <?php endforeach; ?>
+        <?php endif; ?>
+
+        <!-- footer -->
+        <footer>
+            <hr>
+            last update :
+            <script type="text/javascript">
+                document.write(document.lastModified);
+            </script><br>
+            © 2020 Shakeo
+        </footer>
+    </body>
+</html>
