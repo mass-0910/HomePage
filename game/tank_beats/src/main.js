@@ -794,58 +794,58 @@ function moveEnemy(){
         tmpr = enemy[i].r;
         if(enemy[i].xv > 0.0 && enemy[i].yv == 0.0){
             if(enemy[i].r > -Math.PI/2.0 && enemy[i].r < Math.PI/2.0){
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }else{
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }
         }
         if(enemy[i].xv < 0.0 && enemy[i].yv == 0.0){
             if(enemy[i].r > -Math.PI/2.0 && enemy[i].r < Math.PI/2.0){
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }else{
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }
         }
         if(enemy[i].xv == 0.0 && enemy[i].yv < 0.0){
             if(enemy[i].r  < 0.0){
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }else{
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }
         }
         if(enemy[i].xv == 0.0 && enemy[i].yv > 0.0){
             if(enemy[i].r  < 0.0){
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }else{
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }
         }
         if(enemy[i].xv > 0.0 && enemy[i].yv < 0.0){
             if(enemy[i].r < Math.PI/4.0 && enemy[i].r > -(3.0*Math.PI)/4.0){
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }else{
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }
         }
         if(enemy[i].xv > 0.0 && enemy[i].yv > 0.0){
             if(enemy[i].r < (3.0*Math.PI)/4.0 && enemy[i].r > -Math.PI/4.0){
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }else{
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }
         }
         if(enemy[i].xv < 0.0 && enemy[i].yv < 0.0){
             if(enemy[i].r < (3.0*Math.PI)/4.0 && enemy[i].r > -Math.PI/4.0){
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }else{
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }
         }
         if(enemy[i].xv < 0.0 && enemy[i].yv > 0.0){
             if(enemy[i].r > -(3.0*Math.PI)/4.0 && enemy[i].r < Math.PI/4.0){
-                enemy[i].r += 0.05;
+                enemy[i].r += 0.025;
             }else{
-                enemy[i].r -= 0.05;
+                enemy[i].r -= 0.025;
             }
         }
         enemy[i].tr += enemy[i].r - tmpr;
