@@ -140,6 +140,27 @@ function init(){
     mesbutton[1] = { text: 'HOW TO PLAY', x: 200, y: 350 };
     mesbutton[2] = { text: 'CREDIT',      x: 200, y: 400 };
 
+    stage_init();
+
+    in_title = true;
+    in_start = false;
+    in_game = false;
+    in_credit = false;
+    in_howtoplay = false;
+    config_time = 0;
+
+    tmpHP = player.HP;
+    damageEffect = 0;
+
+    clear = false;
+    gameovertime = 0;
+    cleartime = 0;
+
+    first_init = false;
+    console.log("init end");
+};
+
+function stage_init(){
     //player init
     player = { x: 32.0,
                y: 32.0,
@@ -194,24 +215,7 @@ function init(){
             enemy[i].smoke[j] = {x: 0, y: 0, xv: 0, yv: 0};
         }
     }
-
-    in_title = true;
-    in_start = false;
-    in_game = false;
-    in_credit = false;
-    in_howtoplay = false;
-    config_time = 0;
-
-    tmpHP = player.HP;
-    damageEffect = 0;
-
-    clear = false;
-    gameovertime = 0;
-    cleartime = 0;
-
-    first_init = false;
-    console.log("init end");
-};
+}
 
 function update(timestamp){
 
@@ -1202,6 +1206,8 @@ function onClick(){
             now_mapnumber++;
             in_game = false;
             in_start = true;
+            cleartime = 0;
+            stage_init();
             if(now_mapnumber == map.length){
                 init();
             }
