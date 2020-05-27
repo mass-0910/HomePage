@@ -12,8 +12,10 @@
     </head>
     <body>
         <!-- header -->
-        <script src="common_js/headermaker.js"></script>
-        <script>header(0, 1)</script>
+        <?php
+        require 'common_php/headermaker.php';
+        header_make(0, 1);
+        ?>
         <hr>
 
         <!-- about -->

@@ -27,8 +27,10 @@
     </head>
     <body>
         <!-- header -->
-        <script src="../common_js/headermaker.js"></script>
-        <script>header(1, 3)</script>
+        <?php
+        require '../common_php/headermaker.php';
+        header_make(1, 3);
+        ?>
         <hr>
 
         <!-- game screen -->
