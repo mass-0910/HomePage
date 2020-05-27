@@ -18,24 +18,24 @@ function header_make($layernum, $light_contents){
     echo '<nav>';
     echo '<ul>';
     if($light_contents == 0){
-        echo '<a href="' . tips_url . '"><li class="selected">Tips</li></a>';
+        echo '<a href="' . $tips_url . '"><li class="selected">Tips</li></a>';
     }else{
-        echo '<a href="' . tips_url . '"><li>Tips</li></a>';
+        echo '<a href="' . $tips_url . '"><li>Tips</li></a>';
     }
     if($light_contents == 1){
-        echo '<a href="' . about_url . '"><li class="selected">About</li></a>';
+        echo '<a href="' . $about_url . '"><li class="selected">About</li></a>';
     }else{
-        echo '<a href="' . about_url . '"><li>About</li></a>';
+        echo '<a href="' . $about_url . '"><li>About</li></a>';
     }
     if($light_contents == 2){
-        echo '<a href="' . blog_url . '"><li class="selected">Blog</li></a>';
+        echo '<a href="' . $blog_url . '"><li class="selected">Blog</li></a>';
     }else{
-        echo '<a href="' . blog_url . '"><li>Blog</li></a>';
+        echo '<a href="' . $blog_url . '"><li>Blog</li></a>';
     }
     if($light_contents == 3){
-        echo '<a href="' . games_url . '"><li class="selected">Games</li></a>';
+        echo '<a href="' . $games_url . '"><li class="selected">Games</li></a>';
     }else{
-        echo '<a href="' . games_url . '"><li>Games</li></a>';
+        echo '<a href="' . $games_url . '"><li>Games</li></a>';
     }
     echo('</ul>');
     echo('</nav>');
