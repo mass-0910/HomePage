@@ -27,8 +27,12 @@
     </head>
     <body>
         <!-- header -->
-        <script src="common_js/headermaker.js"></script>
-        <script>header(0, 0)</script>
+        <?php
+        require 'common_php/headermaker.php';
+        header_make(0, 0);
+        ?>
+        <!-- <script src="common_js/headermaker.js"></script>
+        <script>header(0, 0)</script> -->
         <!-- <header>
             <img src="img/logo.png" alt="ロゴ" width="128" height="128">
             <div>
