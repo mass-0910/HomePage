@@ -3,7 +3,6 @@
 function comment(){
     $calling_filename = basename(debug_backtrace()[0]['file']);
     $filename = '/cgi-bin/' . basename(debug_backtrace()[0]['file'], ".html") . '_comment.txt';
-    echo $filename . '<br>';
     $now_date = null;
     $data = null;
     date_default_timezone_set('Asia/Tokyo');
