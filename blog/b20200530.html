@@ -42,17 +42,7 @@
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
 
-        <hr>
-        <h2>コメントを投稿</h2>
-        <form action="<?php echo basename(__FILE__); ?>" method="post">
-            名前：<br />
-            <input type="text" name="name" size="30" value="" /><br />
-            コメント：<br />
-            <textarea name="comment" cols="30" rows="5"></textarea><br />
-            <br />
-            <input class="btn" type="submit" name='btn_submit' value="投稿する" />
-        </form>
-        <p>過去のコメント</p>
+        <!-- comment form -->
         <?php
             require('../common_php/comment.php');
             comment();

@@ -1,6 +1,7 @@
 <?php
 
 function comment(){
+    $calling_filename = basename(debug_backtrace()[0]['file']);
     $filename = '/cgi-bin/' . basename(debug_backtrace()[0]['file'], ".html") . '_comment.txt';
     echo $filename . '<br>';
     $now_date = null;
@@ -11,6 +12,19 @@ function comment(){
     $split_data = null;
     $message = array();
     $message_array = array();
+
+    echo '<hr>';
+    echo '<h2>コメントを投稿</h2>';
+    echo '<form action="' . $calling_filename . '" method="post">';
+    echo '名前：<br />';
+    echo '<input type="text" name="name" size="30" value="" /><br />';
+    echo 'コメント：<br />';
+    echo '<textarea name="comment" cols="30" rows="5"></textarea><br />';
+    echo '<br />';
+    echo '<input class="btn" type="submit" name="btn_submit" value="投稿する" />';
+    echo '</form>';
+    echo '<p>過去のコメント</p>';
+
     
     if(!empty($_POST['btn_submit'])){
 
