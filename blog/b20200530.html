@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="description" content="社畜ちゃんのフィギュアを作ってみたので、ここに制作記録をまとめます。">
+        <meta name="keywords" contents="鮭男,社畜ちゃん">
+        <meta name="twitter:title" content="社畜ちゃんのフィギュア作ってみた">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https://www.mass-site.work/blog/img/b20200422_icon.png">
+        <meta name="twitter:image:alt" content="shakeo">
+        <meta name="twitter:description" content="社畜ちゃんのフィギュアがなかったので作ってみました。">
+        <meta name="twitter:url" content="https://www.mass-site.work/blog/b20200422.html">
+        <meta name="twitter:site" content="@manjyu0910">
+        <meta name="twitter:domain" content="www.mass-site.work">
+        <meta property="og:title" content="社畜ちゃんのフィギュア作ってみた">
+        <meta property="og:url" content="https://www.mass-site.work/blog/b20200422.html">
+        <meta property="og:site_name" content="鮭男のホームページ">
+        <meta property="og:image" content="https://www.mass-site.work/blog/img/b20200422_icon.png">
+        <meta property="og:image:alt" content="shakeo">
+        <meta property="og:description" content="社畜ちゃんのフィギュアがなかったので作ってみました。">
+        <meta property="og:locale" content="ja_JP">
+        <title>社畜ちゃんのフィギュア作ってみた | 鮭男のホームページ</title>
+        <link rel="stylesheet" href="../css/stylesheet.css">
+        <link rel="icon" href="../favicon.ico">
+    </head>
+    <body>
+        <!-- header -->
+        <?php
+        require '../common_php/headermaker.php';
+        header_make(1, 2);
+        ?>
+        <hr>
+
+        <!-- blog -->
+        <div class="blogbody">
+            <p>aaa</p>
+        </div>
+
+        <div class="share">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+
+        <hr>
+        <h2>コメントを投稿</h2>
+        <form action="b20200422.html" method="post">
+            名前：<br />
+            <input type="text" name="name" size="30" value="" /><br />
+            コメント：<br />
+            <textarea name="comment" cols="30" rows="5"></textarea><br />
+            <br />
+            <input class="btn" type="submit" name='btn_submit' value="投稿する" />
+        </form>
+        <p>過去のコメント</p>
+        <?php
+            require('../common_php/comment.php');
+            comment();
+        ?>
+            
+        <!-- footer -->
+        <footer>
+            <hr>
+            last update :
+            <script type="text/javascript">
+                document.write(document.lastModified);
+            </script><br>
+            © 2020 Shakeo
+        </footer>
+    </body>
+</html>
