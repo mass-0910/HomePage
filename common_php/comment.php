@@ -1,7 +1,7 @@
 <?php
 
 function comment(){
-    $filename = '/cgi-bin/' . basename(__FILE__, ".html") . '_comment.txt';
+    $filename = '/cgi-bin/' . basename(debug_backtrace()[0]['file'], ".html") . '_comment.txt';
     echo $filename . '<br>';
     $now_date = null;
     $data = null;
