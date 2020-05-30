@@ -1,7 +1,7 @@
 <?php
 
 function comment(){
-    $filename = basename(__FILE__, ".php") . '_comment.txt';
+    $filename = '/cgi-bin/' . basename(__FILE__, ".php") . '_comment.txt';
     $now_date = null;
     $data = null;
     date_default_timezone_set('Asia/Tokyo');
