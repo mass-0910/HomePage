@@ -29,11 +29,16 @@ var Asset = {};
 
 Asset.assets = [
     { type: 'image', name: 'back', src: 'castle_tower/img/back.png' },
+    { type: 'image', name: 'dice', src: 'castle_tower/img/dice.png' },
 ];
 
 Asset.images = [];
 
 var squares = [];
+
+var task = new Ordering();
+
+var click;
 
 function init(){
 
@@ -93,6 +98,8 @@ function update(timestamp){
 
     draw();
 
+    task.update();
+
     requestAnimationFrame(update);
 };
 
@@ -110,6 +117,8 @@ function draw(){
     for(var square of squares){
         ctx.strokeRect(square.x, square.y, SQUARE_WIDTH, SQUARE_HEIGHT);
     }
+
+    task.draw()
 };
 
 Asset.loadAssets = function(onComplete){
@@ -141,5 +150,51 @@ Asset._loadImage = function(asset, onLoad){
 };
 
 function onClick(){
-    
+    click()
 };
+
+class Dice{
+    constructor(){
+        this.num = 1
+    }
+
+    draw(x, y){
+        ctx.drawImage(Asset.images['dice'], (num - 1) * 64, 0, 64, 64, x, y, 64, 64);
+    }
+
+    throw(){
+        this.num = Math.ceil(Math.random()*6);
+    }
+}
+
+class Ordering{
+    
+    constructor(){
+        this.state = 'dice'
+        this.dice = new Dice();
+        click = this.onClick;
+    }
+
+    update(){
+        switch(this.state){
+            case 'dice':
+                this.dice.throw();
+                break;
+        }
+    }
+
+    draw(){
+        switch(this.state){
+            case 'dice':
+                this.dice.draw(SCREEN_WIDTH - 32, SCREEN_HEIGHT - 32);
+                break;
+        }
+    }
+
+    onClick(){
+        switch(this.state){
+            case 'dice':
+                console.log('dice')
+        }
+    }
+}
