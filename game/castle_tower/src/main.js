@@ -110,7 +110,7 @@ function draw(){
         ctx.fillText('更新で再挑戦', SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 + 90);
     }
 
-    for(square in squares){
+    for(var square of squares){
         console.log(square.x)
         console.log(square.y)
         ctx.strokeRect(square.x, square.y, SQUARE_WIDTH, SQUARE_HEIGHT);
