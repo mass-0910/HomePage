@@ -62,7 +62,7 @@ function init(){
     //init squares
     side_num = (SQUARE_NUM / 10) * 2;
     tb_num = (SQUARE_NUM / 10) * 3;
-    next_point = { x: SCREEN_WIDTH / 2 - (tb_num + 1) / 2, y: SCREEN_HEIGHT / 2 - (side_num + 1) / 2 };
+    next_point = { x: SCREEN_WIDTH / 2 - ((tb_num + 1) * SQUARE_WIDTH) / 2, y: SCREEN_HEIGHT / 2 - ((side_num + 1) * SQUARE_HEIGHT) / 2 };
     for(var i = 0; i < SQUARE_NUM; i++){
         squares[i] = {
             x: next_point.x,
