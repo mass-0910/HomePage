@@ -79,6 +79,8 @@ function init(){
             next_point.y -= SQUARE_HEIGHT;
         }
     }
+
+    requestAnimationFrame(update);
 };
 
 function update(timestamp){
