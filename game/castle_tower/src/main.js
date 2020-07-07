@@ -28,7 +28,7 @@ var gameover = false;
 var Asset = {};
 
 Asset.assets = [
-    { type: 'image', name: 'back', src: 'img/back.png' },
+    { type: 'image', name: 'back', src: 'castle_tower/img/back.png' },
 ];
 
 Asset.images = [];
