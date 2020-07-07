@@ -33,7 +33,7 @@ class Dice{
     }
 
     draw(x, y){
-        ctx.drawImage(Asset.images['dice'], (num - 1) * 64, 0, 64, 64, x, y, 64, 64);
+        ctx.drawImage(Asset.images['dice'], (this.num - 1) * 64, 0, 64, 64, x, y, 64, 64);
     }
 
     throw(){
