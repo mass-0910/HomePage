@@ -46,7 +46,6 @@ class Ordering{
     constructor(){
         this.state = 'dice'
         this.dice = new Dice();
-        click = this.onClick;
     }
 
     update(){
@@ -60,7 +59,7 @@ class Ordering{
     draw(){
         switch(this.state){
             case 'dice':
-                this.dice.draw(SCREEN_WIDTH - 32, SCREEN_HEIGHT - 32);
+                this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
                 break;
         }
     }
@@ -83,8 +82,6 @@ Asset.images = [];
 var squares = [];
 
 var task = new Ordering();
-
-var click;
 
 function init(){
 
@@ -196,6 +193,6 @@ Asset._loadImage = function(asset, onLoad){
 };
 
 function onClick(){
-    click()
+    task.onClick();
 };
 
