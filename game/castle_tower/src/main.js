@@ -111,8 +111,6 @@ function draw(){
     }
 
     for(var square of squares){
-        console.log(square.x)
-        console.log(square.y)
         ctx.strokeRect(square.x, square.y, SQUARE_WIDTH, SQUARE_HEIGHT);
     }
 };
