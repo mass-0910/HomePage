@@ -6,8 +6,8 @@ var ctx;
 const SCREEN_WIDTH = 800;
 const SCREEN_HEIGHT = 640;
 
-const SQUARE_WIDTH = 300;
-const SQUARE_HEIGHT = 300;
+const SQUARE_WIDTH = 30;
+const SQUARE_HEIGHT = 30;
 
 const SQUARE_NUM = 30;
 
@@ -101,9 +101,6 @@ function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(Asset.images['back'], 0, 0);
-
-    ctx.fillStyle = "white";
-    ctx.fillRect(player.x - 32, player.y - 5, 64, 10);
 
     if(gameover){
         ctx.fillText('ゲームオーバー', SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50);
