@@ -29,7 +29,6 @@ var Asset = {};
 
 Asset.assets = [
     { type: 'image', name: 'back', src: 'img/back.png' },
-    { type: 'image', name: 'block', src: 'img/block.png'}
 ];
 
 Asset.images = [];
