@@ -78,6 +78,8 @@ function init(){
             next_point.y -= SQUARE_HEIGHT;
         }
     }
+
+    console.log('init')
 };
 
 function update(timestamp){
