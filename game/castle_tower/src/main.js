@@ -84,8 +84,6 @@ function init(){
 
 function update(timestamp){
 
-    console.log('update')
-
     // time from before frame
     var delta = 0;
     if(lastTimeStamp != null){
@@ -101,7 +99,6 @@ function update(timestamp){
 function draw(){
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log('draw');
 
     ctx.drawImage(Asset.images['back'], 0, 0);
 
@@ -114,6 +111,8 @@ function draw(){
     }
 
     for(square in squares){
+        console.log(square.x)
+        console.log(square.y)
         ctx.strokeRect(square.x, square.y, SQUARE_WIDTH, SQUARE_HEIGHT);
     }
 };
