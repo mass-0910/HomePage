@@ -84,6 +84,8 @@ function init(){
 
 function update(timestamp){
 
+    console.log('update')
+
     // time from before frame
     var delta = 0;
     if(lastTimeStamp != null){
