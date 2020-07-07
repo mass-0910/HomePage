@@ -79,8 +79,6 @@ function init(){
             next_point.y -= SQUARE_HEIGHT;
         }
     }
-
-    requestAnimationFrame(update);
 };
 
 function update(timestamp){
@@ -100,6 +98,7 @@ function update(timestamp){
 function draw(){
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    console.log('draw');
 
     ctx.drawImage(Asset.images['back'], 0, 0);
 
