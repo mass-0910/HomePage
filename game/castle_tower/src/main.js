@@ -124,6 +124,12 @@ class Ordering{
                 this.e_dice.draw(this.enemy_dice_x, this.enemy_dice_y);
                 break;
         }
+        if(['left alignment', 'e_dice', 'stop2', 'right alignment', 'result'].indexOf(this.state) != -1){
+            ctx.fillText(String(this.dice.getNum()), this.player_dice_x + 10, this.player_dice_y - 20);
+        }
+        if(['right alignment', 'result'].indexOf(this.state) != -1){
+            ctx.fillText(String(this.dice.getNum()), this.enemy_dice_x + 10, this.enemy_dice_y - 20);
+        }
     }
 
     onClick(){
