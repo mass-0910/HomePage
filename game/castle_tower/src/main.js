@@ -50,9 +50,12 @@ class Ordering{
     constructor(){
         this.state = 'dice'
         this.dice = new Dice();
+        this.e_dice = new Dice();
         this.frame = 0;
         this.player_dice_x = SCREEN_WIDTH/2 - 32;
-        this.player_dice_y = SCREEN_HEIGHT/2 - 32
+        this.player_dice_y = SCREEN_HEIGHT/2 - 32;
+        this.enemy_dice_x = SCREEN_WIDTH/2 - 32;
+        this.enemy_dice_y = SCREEN_HEIGHT/2 - 32;
     }
 
     update(){
@@ -62,26 +65,60 @@ class Ordering{
                 break;
             case 'stop':
                 if(this.frame > 60){
-                    this.state = 'left alignment'
+                    this.state = 'left alignment';
+                    this.frame = 0;
                 }
                 break;
             case 'left alignment':
                 this.player_dice_x += (SCREEN_WIDTH / 3 - 32 - this.player_dice_x) * 0.1;
+                if(this.frame > 60){
+                    this.state = 'e_dice';
+                    this.frame = 0;
+                }
+                break;
+            case 'e_dice':
+                if(this.frame % 5 == 0)this.e_dice.throw();
+                if(this.frame > 120){
+                    this.state = 'stop2';
+                    this.frame = 0;
+                }
+                break;
+            case 'stop2':
+                if(this.frame > 60){
+                    this.state = 'right alignment';
+                    this.frame = 0;
+                }
+                break;
+            case 'right alignment':
+                this.enemy_dice_x += ((SCREEN_WIDTH / 3) * 2 - 32 - this.enemy_dice_x) * 0.1;
+                if(this.frame > 60){
+                    this.state = 'result';
+                    this.frame = 0;
+                }
+                break;
+            case 'result':
                 break;
         }
         this.frame += 1;
     }
 
     draw(){
+        this.dice.draw(this.player_dice_x, this.player_dice_y);
         switch(this.state){
             case 'dice':
-                this.dice.draw(this.player_dice_x, this.player_dice_y);
                 break;
             case 'stop':
-                this.dice.draw(this.player_dice_x, this.player_dice_y);
                 break;
             case 'left alignment':
-                this.dice.draw(this.player_dice_x, this.player_dice_y);
+                break;
+            case 'e_dice':
+                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
+                break;
+            case 'stop2':
+                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
+                break;
+            case 'right alignment':
+                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
                 break;
         }
     }
@@ -92,7 +129,6 @@ class Ordering{
                 this.state = 'stop';
                 this.frame = 0;
                 break;
-
         }
     }
 }
