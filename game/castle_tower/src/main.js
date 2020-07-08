@@ -66,7 +66,8 @@ class Ordering{
                 }
                 break;
             case 'left alignment':
-                this.player_dice_x += (SCREEN_WIDTH / 3 - 32 - this.player_dice_x) * 0.1
+                this.player_dice_x += (SCREEN_WIDTH / 3 - 32 - this.player_dice_x) * 0.1;
+                break;
         }
         this.frame += 1;
     }
@@ -80,7 +81,8 @@ class Ordering{
                 this.dice.draw(this.player_dice_x, this.player_dice_y);
                 break;
             case 'left alignment':
-                this.dice.draw(this.player_dice_x, this.player_dice_y)
+                this.dice.draw(this.player_dice_x, this.player_dice_y);
+                break;
         }
     }
 
@@ -88,7 +90,8 @@ class Ordering{
         switch(this.state){
             case 'dice':
                 this.state = 'stop';
-                console.log('dice')
+                this.frame = 0;
+                break;
 
         }
     }
