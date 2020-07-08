@@ -129,7 +129,7 @@ class Ordering{
             ctx.fillText(String(this.dice.getNum()), this.player_dice_x + 20, this.player_dice_y - 20);
         }
         if(['right alignment', 'result'].indexOf(this.state) != -1){
-            ctx.fillText(String(this.e_dice.getNum()), this.enemy_dice_x + 10, this.enemy_dice_y - 20);
+            ctx.fillText(String(this.e_dice.getNum()), this.enemy_dice_x + 20, this.enemy_dice_y - 20);
         }
     }
 
