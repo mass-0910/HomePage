@@ -33,7 +33,7 @@ class Dice{
     }
 
     draw(x, y){
-        ctx.drawImage(Asset.images['dice'], (this.num - 1) * 64, 0, 64, 64, x, y, 64, 64);
+        ctx.drawImage(Asset.images['dice'], (this.num - 1) * 64, 0, 64, 64, Math.round(x), Math.round(y), 64, 64);
     }
 
     throw(){
@@ -51,6 +51,8 @@ class Ordering{
         this.state = 'dice'
         this.dice = new Dice();
         this.frame = 0;
+        this.player_dice_x = SCREEN_WIDTH/2 - 32;
+        this.player_dice_y = SCREEN_HEIGHT/2 - 32
     }
 
     update(){
@@ -59,10 +61,12 @@ class Ordering{
                 if(this.frame % 5 == 0)this.dice.throw();
                 break;
             case 'stop':
-                if(this.frame > 50){
-                    this.state = ''
+                if(this.frame > 60){
+                    this.state = 'left alignment'
                 }
                 break;
+            case 'left alignment':
+                this.player_dice_x += (SCREEN_WIDTH / 3 - 32 - this.player_dice_x) * 0.01
         }
         this.frame += 1;
     }
@@ -70,18 +74,20 @@ class Ordering{
     draw(){
         switch(this.state){
             case 'dice':
-                this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
-                this.state = 'stop';
+                this.dice.draw(this.player_dice_x, this.player_dice_y);
                 break;
             case 'stop':
-                this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
+                this.dice.draw(this.player_dice_x, this.player_dice_y);
                 break;
+            case 'left alignment':
+                this.dice.draw(this.player_dice_x, this.player_dice_y)
         }
     }
 
     onClick(){
         switch(this.state){
             case 'dice':
+                this.state = 'stop';
                 console.log('dice')
 
         }
