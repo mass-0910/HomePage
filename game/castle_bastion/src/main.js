@@ -15,16 +15,6 @@ var lastTimeStamp = null;
 
 var mouse = { x: 0, y: 0 };
 
-var block = [];
-var BLOCK_NUM = (SCREEN_WIDTH / 32 - 2) * ( (SCREEN_HEIGHT - 250) / 10 - 2);
-
-var player = { x: SCREEN_WIDTH / 2, y: 400, v: 0.0, lastx: SCREEN_WIDTH / 2};
-
-var BALL_RADIUS = 5;
-var ball = null;
-
-var gameover = false;
-
 var Asset = {};
 
 class Dice{
@@ -210,9 +200,9 @@ function update(timestamp){
     }
     lastTimeStamp = timestamp;
 
-    draw();
-
     task.update();
+
+    draw();
 
     requestAnimationFrame(update);
 };
@@ -222,11 +212,6 @@ function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(Asset.images['back'], 0, 0);
-
-    if(gameover){
-        ctx.fillText('ゲームオーバー', SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 50);
-        ctx.fillText('更新で再挑戦', SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 + 90);
-    }
 
     for(var square of squares){
         ctx.strokeRect(square.x, square.y, SQUARE_WIDTH, SQUARE_HEIGHT);
