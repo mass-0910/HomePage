@@ -112,16 +112,16 @@ class Ordering{
             case 'left alignment':
                 break;
             case 'e_dice':
-                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
+                this.e_dice.draw(this.enemy_dice_x, this.enemy_dice_y);
                 break;
             case 'stop2':
-                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
+                this.e_dice.draw(this.enemy_dice_x, this.enemy_dice_y);
                 break;
             case 'right alignment':
-                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
+                this.e_dice.draw(this.enemy_dice_x, this.enemy_dice_y);
                 break;
             case 'result':
-                this.dice.draw(this.enemy_dice_x, this.enemy_dice_y);
+                this.e_dice.draw(this.enemy_dice_x, this.enemy_dice_y);
                 break;
         }
     }
