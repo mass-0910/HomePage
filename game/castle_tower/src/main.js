@@ -6,8 +6,8 @@ var ctx;
 const SCREEN_WIDTH = 800;
 const SCREEN_HEIGHT = 640;
 
-const SQUARE_WIDTH = 30;
-const SQUARE_HEIGHT = 30;
+const SQUARE_WIDTH = 60;
+const SQUARE_HEIGHT = 60;
 
 const SQUARE_NUM = 30;
 
