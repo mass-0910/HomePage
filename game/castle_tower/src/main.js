@@ -78,7 +78,7 @@ class Ordering{
                 break;
             case 'e_dice':
                 if(this.frame % 5 == 0)this.e_dice.throw();
-                if(this.frame > 120){
+                if(this.frame > 100){
                     this.state = 'stop2';
                     this.frame = 0;
                 }
@@ -126,7 +126,7 @@ class Ordering{
                 break;
         }
         if(['left alignment', 'e_dice', 'stop2', 'right alignment', 'result'].indexOf(this.state) != -1){
-            ctx.fillText(String(this.dice.getNum()), this.player_dice_x + 10, this.player_dice_y - 20);
+            ctx.fillText(String(this.dice.getNum()), this.player_dice_x + 20, this.player_dice_y - 20);
         }
         if(['right alignment', 'result'].indexOf(this.state) != -1){
             ctx.fillText(String(this.e_dice.getNum()), this.enemy_dice_x + 10, this.enemy_dice_y - 20);
