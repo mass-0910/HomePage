@@ -106,6 +106,7 @@ class Ordering{
         this.dice.draw(this.player_dice_x, this.player_dice_y);
         switch(this.state){
             case 'dice':
+                ctx.fillText(String(this.dice.getNum()), this.player_dice_x, this.player_dice_y + 72);
                 break;
             case 'stop':
                 break;
