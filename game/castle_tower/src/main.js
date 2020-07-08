@@ -71,6 +71,7 @@ class Ordering{
         switch(this.state){
             case 'dice':
                 this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
+                this.state = 'stop';
                 break;
             case 'stop':
                 this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
