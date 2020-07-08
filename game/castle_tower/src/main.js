@@ -66,7 +66,7 @@ class Ordering{
                 }
                 break;
             case 'left alignment':
-                this.player_dice_x += (SCREEN_WIDTH / 3 - 32 - this.player_dice_x) * 0.01
+                this.player_dice_x += (SCREEN_WIDTH / 3 - 32 - this.player_dice_x) * 0.1
         }
         this.frame += 1;
     }
