@@ -56,15 +56,15 @@ class Ordering{
     update(){
         switch(this.state){
             case 'dice':
-                this.dice.throw();
+                if(this.frame % 5 == 0)this.dice.throw();
                 break;
             case 'stop':
-                this.frame += 1;
                 if(this.frame > 50){
                     this.state = ''
                 }
                 break;
         }
+        this.frame += 1;
     }
 
     draw(){
