@@ -39,6 +39,10 @@ class Dice{
     throw(){
         this.num = Math.ceil(Math.random()*6);
     }
+
+    getNum(){
+        return this.num;
+    }
 }
 
 class Ordering{
@@ -46,12 +50,19 @@ class Ordering{
     constructor(){
         this.state = 'dice'
         this.dice = new Dice();
+        this.frame = 0;
     }
 
     update(){
         switch(this.state){
             case 'dice':
                 this.dice.throw();
+                break;
+            case 'stop':
+                this.frame += 1;
+                if(this.frame > 50){
+                    this.state = ''
+                }
                 break;
         }
     }
@@ -61,6 +72,9 @@ class Ordering{
             case 'dice':
                 this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
                 break;
+            case 'stop':
+                this.dice.draw(SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32);
+                break;
         }
     }
 
@@ -68,6 +82,7 @@ class Ordering{
         switch(this.state){
             case 'dice':
                 console.log('dice')
+
         }
     }
 }
